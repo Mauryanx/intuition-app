@@ -4,9 +4,11 @@ A powerful and intuitive application built to enhance user experience and produc
 
 ## Development Setup
 
-This project uses a dual-repository approach:
-- **Private Repository**: Main development repository (private)
-- **Public Repository**: Community mirror for visibility and contributions
+This project uses Git and GitHub for version control, allowing you to:
+- Create branches for new features
+- Make pull requests for code reviews
+- Collaborate with others
+- Track changes and revert when needed
 
 ## Getting Started
 
@@ -17,12 +19,32 @@ This project uses a dual-repository approach:
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/intuition-app-private.git
+git clone https://github.com/Mauryanx/intuition-app.git
 cd intuition-app
 
 # Install dependencies
 npm install
 ```
+
+### Development Workflow
+
+1. **Create a feature branch:**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+2. **Make your changes and commit:**
+   ```bash
+   git add .
+   git commit -m "Add your descriptive commit message"
+   ```
+
+3. **Push your branch:**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+4. **Create a Pull Request on GitHub** to merge your changes
 
 ## Contributing
 
