@@ -1,0 +1,112 @@
+@startuml "Minigame Training Session Activity Diagram"
+
+!theme aws-orange
+
+' Global background and contrast settings
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontColor #000000
+
+' Activity styling
+skinparam activity {
+  BackgroundColor #E8F4FD
+  BorderColor #2E86C1
+  BorderThickness 2
+  FontColor #000000
+  FontSize 11
+  FontStyle normal
+}
+
+' Decision styling
+skinparam diamond {
+  BackgroundColor #FFE6CC
+  BorderColor #FF9933
+  BorderThickness 2
+  FontColor #000000
+  FontSize 10
+  FontStyle bold
+}
+
+' Start/End styling
+skinparam circle {
+  BackgroundColor #32CD32
+  BorderColor #228B22
+  BorderThickness 3
+}
+
+' Arrow styling
+skinparam arrow {
+  Color #000000
+  Thickness 2
+}
+
+' Note styling
+skinparam note {
+  BackgroundColor #FFFACD
+  BorderColor #DAA520
+  BorderThickness 2
+  FontColor #000000
+}
+
+title <size:18><color:#2E86C1><b>🎮 Minigame Training Session Activity Flow</b></color></size>
+
+start
+
+:User Opens Training Section;
+note right: Authenticated user\naccesses main training area
+
+:Select Minigame Type;
+note right: Choose from:\n• Pattern Recognition\n• Social Intuition\n• Decision Making\n• Creative Intuition
+
+:Choose Difficulty Level;
+note right: Options:\n• Easy\n• Medium\n• Hard
+
+:System Initializes Game Session;
+note left: Load game assets\nSet up scoring system\nStart session timer
+
+partition "Game Play Loop" {
+  repeat
+    :Present Challenge/Scenario;
+    note right: Show visual, audio,\nor text-based challenge
+
+    :User Responds Intuitively;
+    note right: User makes choice\nbased on gut feeling
+
+    :System Provides Immediate Feedback;
+    note left: Show correct/incorrect\nExplain reasoning\nUpdate running score
+
+  repeat while (More Challenges?) is (yes)
+  -> no;
+}
+
+:Calculate Final Results;
+note right: Compute:\n• Overall accuracy\n• Response speed\n• Intuition strength score
+
+:Display Performance Summary;
+note right: Show scores, insights,\nand improvement areas
+
+:Update User Progress;
+note left: Update:\n• XP and level\n• Daily streak\n• Achievement progress\n• Personal analytics
+
+if (Play Again?) then (yes)
+  -> Select Minigame Type;
+else (no)
+endif
+
+:End Training Session;
+note right: Save progress\nReturn to main menu
+
+stop
+
+
+' Legend
+legend bottom
+  <color:#E8F4FD>■</color> User Activities
+  <color:#FFE6CC>◆</color> Decision Points
+  <color:#32CD32>●</color> Start/End Points
+  <color:#000000>→</color> Process Flow
+endlegend
+
+' Footer
+center footer <color:#666666><i>Generated for Intuition Training App - Minigame Training Session</i></color>
+
+@enduml

@@ -1,0 +1,150 @@
+@startuml "Guest Conversion Flow Activity Diagram"
+
+!theme aws-orange
+
+' Global background and contrast settings
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontColor #000000
+
+' Activity styling
+skinparam activity {
+  BackgroundColor #E8F4FD
+  BorderColor #2E86C1
+  BorderThickness 2
+  FontColor #000000
+  FontSize 11
+  FontStyle normal
+}
+
+' Decision styling
+skinparam diamond {
+  BackgroundColor #FFE6CC
+  BorderColor #FF9933
+  BorderThickness 2
+  FontColor #000000
+  FontSize 10
+  FontStyle bold
+}
+
+' Start/End styling
+skinparam circle {
+  BackgroundColor #32CD32
+  BorderColor #228B22
+  BorderThickness 3
+}
+
+' Arrow styling
+skinparam arrow {
+  Color #000000
+  Thickness 2
+}
+
+' Note styling
+skinparam note {
+  BackgroundColor #FFFACD
+  BorderColor #DAA520
+  BorderThickness 2
+  FontColor #000000
+}
+
+' Partition styling
+skinparam partition {
+  BackgroundColor #F8F9FA
+  BorderColor #6C8EBF
+  BorderThickness 2
+  FontColor #2E86C1
+  FontSize 12
+  FontStyle bold
+}
+
+title <size:18><color:#2E86C1><b>🎯 Guest Conversion Flow - Value-First Onboarding</b></color></size>
+
+start
+
+partition "Guest Experience (Anonymous)" {
+  :User Opens App;
+  note right: First-time visitor\nNo registration required
+
+  :View Welcome Screen;
+  note right: Compelling intro:\n• What is intuition?\n• Why it matters in AI age\n• Pain points of poor intuition
+
+  :See Benefits & Examples;
+  note left: Show transformation:\n• Success stories\n• Real-world applications\n• Life improvements
+
+  :Take Anonymous Assessment;
+  note right: Quick evaluation:\n• 5-10 questions\n• No login required\n• Builds investment
+}
+
+partition "Value Demonstration" {
+  :Generate Personalized Results;
+  note left: System processes:\n• Assessment responses\n• Intuition strengths/weaknesses\n• Custom learning path
+
+  :Display Learning Path;
+  note right: Show personalized:\n• Recommended minigames\n• Skill development plan\n• Expected outcomes
+
+  :Preview Training Content;
+  note left: Limited preview:\n• Sample minigame\n• Teaser of full experience\n• Build desire for more
+}
+
+partition "Conversion Point" {
+  if (User Interested?) then (yes)
+    :Show Subscription Options;
+    note right: Superwall integration:\n• Pricing tiers\n• Feature comparison\n• Limited-time offers
+
+    if (Choose Plan?) then (yes)
+      :Process Payment;
+      note left: Superwall handles:\n• Payment processing\n• Receipt validation\n• Subscription activation
+    else (no)
+      :Save Progress as Guest;
+      note right: Allow return:\n• Store assessment data\n• Enable comeback flow\n• Email capture optional
+      stop
+    endif
+  else (no)
+    :Save Progress as Guest;
+    note right: Allow return:\n• Store assessment data\n• Enable comeback flow\n• Email capture optional
+    stop
+  endif
+}
+
+partition "Post-Subscription Authentication" {
+  :Show Authentication Options;
+  note right: OAuth choices:\n• Sign in with Google\n• Sign in with Apple\n• Quick & secure
+
+  if (Choose Auth Method?) then (Google)
+    :Google OAuth Flow;
+    note left: Google handles:\n• User authentication\n• Secure token exchange\n• Profile data access
+  else (Apple)
+    :Apple ID Flow;
+    note right: Apple handles:\n• User authentication\n• Privacy-focused signin\n• Minimal data sharing
+  endif
+
+  :Validate OAuth Token;
+  note left: System verifies:\n• Token authenticity\n• User permissions\n• Account status
+}
+
+partition "Profile Creation & Setup" {
+  :Create User Profile;
+  note right: Combine data:\n• OAuth user info\n• Assessment results\n• Subscription details
+
+  :Save Learning Path to Profile;
+  note left: Personalize account:\n• Custom training plan\n• Progress tracking setup\n• Goal establishment
+
+  :Setup Complete - Enter App;
+  note right: Full access granted:\n• All premium features\n• Personalized experience\n• Progress tracking active
+}
+
+stop
+
+' Legend
+legend bottom
+  <color:#E8F4FD>■</color> Process Activities
+  <color:#FFE6CC>◆</color> Decision Points
+  <color:#32CD32>●</color> Start/End Points
+  <color:#F8F9FA>□</color> Process Phases
+  <color:#000000>→</color> Flow Direction
+endlegend
+
+' Footer
+center footer <color:#666666><i>Generated for Intuition Training App - Guest Conversion Flow</i></color>
+
+@enduml

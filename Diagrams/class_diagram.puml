@@ -1,0 +1,159 @@
+@startuml IntuitionAppClassDiagram
+
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontSize 10
+skinparam classAttributeFontSize 9
+
+class User {
+  -userId: String
+  -email: String
+  -username: String
+  -password: String
+  -createdAt: Date
+  -lastLoginAt: Date
+  -subscriptionStatus: SubscriptionType
+  -profileImage: String
+  +login()
+  +logout()
+  +register()
+  +updateProfile()
+  +resetPassword()
+}
+
+class UserProfile {
+  -profileId: String
+  -userId: String
+  -firstName: String
+  -lastName: String
+  -dateOfBirth: Date
+  -onboardingCompleted: Boolean
+  -personalizedPath: LearningPath
+  +completeOnboarding()
+  +updatePersonalizedPath()
+}
+
+class Assessment {
+  -assessmentId: String
+  -userId: String
+  -questions: List<AssessmentQuestion>
+  -responses: List<AssessmentResponse>
+  -completedAt: Date
+  -results: AssessmentResults
+  +startAssessment()
+  +submitResponse()
+  +calculateResults()
+  +generatePersonalizedPath()
+}
+
+class Minigame {
+  -gameId: String
+  -gameName: String
+  -gameType: MinigameType
+  -description: String
+  -instructions: String
+  -difficultyLevels: List<DifficultyLevel>
+  -intuitionCategory: IntuitionType
+  -isPremium: Boolean
+  +startGame()
+  +pauseGame()
+  +resumeGame()
+  +endGame()
+  +calculateScore()
+}
+
+class MinigameSession {
+  -sessionId: String
+  -userId: String
+  -gameId: String
+  -startTime: Date
+  -endTime: Date
+  -score: Integer
+  -accuracy: Float
+  -speed: Float
+  -difficulty: DifficultyLevel
+  -hintsUsed: Integer
+  -completed: Boolean
+  +recordAnswer()
+  +useHint()
+  +calculateFinalScore()
+}
+
+class PatternRecognitionGame {
+  -patterns: List<Pattern>
+  -timeLimit: Integer
+  +generatePattern()
+  +checkPatternMatch()
+  +provideFeedback()
+}
+
+class UserProgress {
+  -progressId: String
+  -userId: String
+  -overallIntuitionScore: Integer
+  -categoryScores: Map<IntuitionType, Integer>
+  -totalGamesPlayed: Integer
+  -currentStreak: Integer
+  -longestStreak: Integer
+  -lastActivityDate: Date
+  +updateScore()
+  +incrementStreak()
+  +resetStreak()
+  +calculateImprovement()
+}
+
+class Subscription {
+  -subscriptionId: String
+  -userId: String
+  -planType: SubscriptionPlan
+  -status: SubscriptionStatus
+  -startDate: Date
+  -endDate: Date
+  -autoRenew: Boolean
+  -paymentMethod: String
+  +upgrade()
+  +downgrade()
+  +cancel()
+  +renew()
+  +checkAccess()
+}
+
+class Leaderboard {
+  -leaderboardId: String
+  -leaderboardType: LeaderboardType
+  -timeFrame: TimeFrame
+  -rankings: List<UserRanking>
+  -lastUpdated: Date
+  +updateRankings()
+  +getUserRank()
+  +getTopUsers()
+}
+
+class Challenge {
+  -challengeId: String
+  -challengeName: String
+  -description: String
+  -challengeType: ChallengeType
+  -startDate: Date
+  -endDate: Date
+  -participants: List<String>
+  -winners: List<String>
+  -isActive: Boolean
+  +joinChallenge()
+  +leaveChallenge()
+  +calculateWinners()
+  +distributeRewards()
+}
+
+' Relationships
+User ||--|| UserProfile : has
+User ||--o{ Assessment : takes
+User ||--|| UserProgress : tracks
+User ||--o{ MinigameSession : plays
+User ||--o| Subscription : has
+User ||--o{ Challenge : participates
+
+Minigame ||--o{ MinigameSession : creates
+PatternRecognitionGame --|> Minigame : extends
+
+@enduml

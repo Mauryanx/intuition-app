@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" etag="version" version="1.0">
+  <diagram name="User Onboarding & Authentication" id="use-case-diagram-1">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- System Boundary -->
+        <mxCell id="system-boundary" value="Intuition Training App&#xa;(Onboarding &amp; Authentication System)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#6c757d;strokeWidth=3;fontSize=16;fontStyle=1;verticalAlign=top;spacingTop=20;dashed=1;dashPattern=5 5;" vertex="1" parent="1">
+          <mxGeometry x="200" y="100" width="700" height="500" as="geometry" />
+        </mxCell>
+
+        <!-- Actors -->
+        
+        <!-- New User Actor -->
+        <mxCell id="new-user-actor" value="New User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="200" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Existing User Actor -->
+        <mxCell id="existing-user-actor" value="Existing User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="400" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Email System Actor -->
+        <mxCell id="email-system-actor" value="Email System" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="300" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Use Cases -->
+
+        <!-- Register Account -->
+        <mxCell id="register-account" value="Register Account" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="180" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Login -->
+        <mxCell id="login" value="Login" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Complete Onboarding Assessment -->
+        <mxCell id="complete-assessment" value="Complete&#xa;Onboarding&#xa;Assessment" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="160" width="140" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- View Personalized Learning Path -->
+        <mxCell id="view-learning-path" value="View Personalized&#xa;Learning Path" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="160" width="140" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Validate Credentials -->
+        <mxCell id="validate-credentials" value="Validate&#xa;Credentials" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Reset Password -->
+        <mxCell id="reset-password" value="Reset Password" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcc99;strokeColor=#ff9933;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="480" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Send Verification Email -->
+        <mxCell id="send-verification" value="Send Verification&#xa;Email" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="280" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Create User Profile -->
+        <mxCell id="create-profile" value="Create User&#xa;Profile" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Logout -->
+        <mxCell id="logout" value="Logout" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="480" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Associations -->
+
+        <!-- New User to Register Account -->
+        <mxCell id="new-user-register" value="" style="endArrow=none;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="new-user-actor" target="register-account">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- New User to Complete Assessment -->
+        <mxCell id="new-user-assessment" value="" style="endArrow=none;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="new-user-actor" target="complete-assessment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- New User to View Learning Path -->
+        <mxCell id="new-user-learning-path" value="" style="endArrow=none;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="new-user-actor" target="view-learning-path">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Existing User to Login -->
+        <mxCell id="existing-user-login" value="" style="endArrow=none;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="existing-user-actor" target="login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Existing User to Logout -->
+        <mxCell id="existing-user-logout" value="" style="endArrow=none;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="existing-user-actor" target="logout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Existing User to Reset Password -->
+        <mxCell id="existing-user-reset" value="" style="endArrow=none;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="existing-user-actor" target="reset-password">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Email System to Send Verification -->
+        <mxCell id="email-verification" value="" style="endArrow=none;html=1;strokeColor=#d6b656;strokeWidth=2;" edge="1" parent="1" source="email-system-actor" target="send-verification">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Include Relationships -->
+
+        <!-- Register includes Create Profile -->
+        <mxCell id="register-includes-profile" value="&lt;&lt;include&gt;&gt;" style="endArrow=open;html=1;strokeColor=#666666;strokeWidth=1;dashed=1;fontSize=10;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="register-account" target="create-profile">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="300" as="sourcePoint" />
+            <mxPoint x="450" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Register includes Send Verification -->
+        <mxCell id="register-includes-verification" value="&lt;&lt;include&gt;&gt;" style="endArrow=open;html=1;strokeColor=#666666;strokeWidth=1;dashed=1;fontSize=10;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="register-account" target="send-verification">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="300" as="sourcePoint" />
+            <mxPoint x="450" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Login includes Validate Credentials -->
+        <mxCell id="login-includes-validate" value="&lt;&lt;include&gt;&gt;" style="endArrow=open;html=1;strokeColor=#666666;strokeWidth=1;dashed=1;fontSize=10;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="login" target="validate-credentials">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Extend Relationships -->
+
+        <!-- Complete Assessment extends View Learning Path -->
+        <mxCell id="assessment-extends-path" value="&lt;&lt;extend&gt;&gt;" style="endArrow=open;html=1;strokeColor=#b85450;strokeWidth=1;dashed=1;fontSize=10;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="complete-assessment" target="view-learning-path">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="200" as="sourcePoint" />
+            <mxPoint x="600" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Title -->
+        <mxCell id="title" value="Use Case Diagram 1: User Onboarding &amp; Authentication" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="30" width="500" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

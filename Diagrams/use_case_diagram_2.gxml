@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gliffy:diagram xmlns:gliffy="http://www.gliffy.com/xmlns/diagram/4.0/" xmlns="http://www.gliffy.com/xmlns/diagram/4.0/" name="Progress Tracking & Analytics" version="1.0" id="2">
+  <stage w="1169" h="827" background="#FFFFFF" gridOn="true" snapToGrid="true" drawingGuidesOn="true" pageBreaksOn="false" printGridOn="false"/>
+  <g>
+    <!-- System Boundary -->
+    <g id="system-boundary">
+      <path d="M 150,80 L 950,80 L 950,680 L 150,680 Z" stroke="#6c757d" stroke-width="3" fill="none" stroke-dasharray="10,5"/>
+      <text x="550" y="100" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#6c757d">Intuition Training App (Progress Tracking &amp; Analytics System)</text>
+    </g>
+    
+    <!-- Actors -->
+    
+    <!-- User Actor -->
+    <g id="user-actor" transform="translate(50,300)">
+      <!-- Actor stick figure -->
+      <circle cx="15" cy="10" r="8" stroke="#82b366" stroke-width="2" fill="#d5e8d4"/>
+      <line x1="15" y1="18" x2="15" y2="45" stroke="#82b366" stroke-width="2"/>
+      <line x1="15" y1="25" x2="5" y2="35" stroke="#82b366" stroke-width="2"/>
+      <line x1="15" y1="25" x2="25" y2="35" stroke="#82b366" stroke-width="2"/>
+      <line x1="15" y1="45" x2="5" y2="60" stroke="#82b366" stroke-width="2"/>
+      <line x1="15" y1="45" x2="25" y2="60" stroke="#82b366" stroke-width="2"/>
+      <text x="15" y="75" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#82b366">User</text>
+    </g>
+    
+    <!-- Analytics System Actor -->
+    <g id="analytics-system-actor" transform="translate(1050,200)">
+      <!-- Actor stick figure -->
+      <circle cx="15" cy="10" r="8" stroke="#6c8ebf" stroke-width="2" fill="#dae8fc"/>
+      <line x1="15" y1="18" x2="15" y2="45" stroke="#6c8ebf" stroke-width="2"/>
+      <line x1="15" y1="25" x2="5" y2="35" stroke="#6c8ebf" stroke-width="2"/>
+      <line x1="15" y1="25" x2="25" y2="35" stroke="#6c8ebf" stroke-width="2"/>
+      <line x1="15" y1="45" x2="5" y2="60" stroke="#6c8ebf" stroke-width="2"/>
+      <line x1="15" y1="45" x2="25" y2="60" stroke="#6c8ebf" stroke-width="2"/>
+      <text x="15" y="75" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#6c8ebf">Analytics</text>
+      <text x="15" y="87" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#6c8ebf">System</text>
+    </g>
+    
+    <!-- Notification System Actor -->
+    <g id="notification-system-actor" transform="translate(1050,450)">
+      <!-- Actor stick figure -->
+      <circle cx="15" cy="10" r="8" stroke="#d6b656" stroke-width="2" fill="#fff2cc"/>
+      <line x1="15" y1="18" x2="15" y2="45" stroke="#d6b656" stroke-width="2"/>
+      <line x1="15" y1="25" x2="5" y2="35" stroke="#d6b656" stroke-width="2"/>
+      <line x1="15" y1="25" x2="25" y2="35" stroke="#d6b656" stroke-width="2"/>
+      <line x1="15" y1="45" x2="5" y2="60" stroke="#d6b656" stroke-width="2"/>
+      <line x1="15" y1="45" x2="25" y2="60" stroke="#d6b656" stroke-width="2"/>
+      <text x="15" y="75" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#d6b656">Notification</text>
+      <text x="15" y="87" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#d6b656">System</text>
+    </g>
+    
+    <!-- Use Cases -->
+    
+    <!-- View Overall Intuition Score -->
+    <g id="view-overall-score">
+      <ellipse cx="270" cy="185" rx="70" ry="35" stroke="#82b366" stroke-width="2" fill="#d5e8d4"/>
+      <text x="270" y="180" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">View Overall</text>
+      <text x="270" y="192" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Intuition Score</text>
+    </g>
+    
+    <!-- View Category Scores -->
+    <g id="view-category-scores">
+      <ellipse cx="470" cy="155" rx="70" ry="35" stroke="#9673a6" stroke-width="2" fill="#e1d5e7"/>
+      <text x="470" y="150" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">View Detailed</text>
+      <text x="470" y="162" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Category Scores</text>
+    </g>
+    
+    <!-- Track Progress Over Time -->
+    <g id="track-progress">
+      <ellipse cx="670" cy="185" rx="70" ry="35" stroke="#6c8ebf" stroke-width="2" fill="#dae8fc"/>
+      <text x="670" y="180" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Track Progress</text>
+      <text x="670" y="192" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Over Time</text>
+    </g>
+    
+    <!-- Set Goals -->
+    <g id="set-goals">
+      <ellipse cx="270" cy="315" rx="70" ry="35" stroke="#b85450" stroke-width="2" fill="#f8cecc"/>
+      <text x="270" y="310" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Set Daily/Weekly</text>
+      <text x="270" y="322" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Goals</text>
+    </g>
+    
+    <!-- View Performance Trends -->
+    <g id="view-trends">
+      <ellipse cx="470" cy="285" rx="70" ry="35" stroke="#d6b656" stroke-width="2" fill="#fff2cc"/>
+      <text x="470" y="280" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">View Performance</text>
+      <text x="470" y="292" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Trends</text>
+    </g>
+    
+    <!-- Get Personalized Recommendations -->
+    <g id="get-recommendations">
+      <ellipse cx="670" cy="315" rx="70" ry="35" stroke="#ff9933" stroke-width="2" fill="#ffcc99"/>
+      <text x="670" y="310" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Get Personalized</text>
+      <text x="670" y="322" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Recommendations</text>
+    </g>
+    
+    <!-- Track Streaks -->
+    <g id="track-streaks">
+      <ellipse cx="270" cy="445" rx="70" ry="35" stroke="#d79b00" stroke-width="2" fill="#ffe6cc"/>
+      <text x="270" y="440" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Track Daily</text>
+      <text x="270" y="452" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Streaks</text>
+    </g>
+    
+    <!-- View Learning Velocity -->
+    <g id="view-velocity">
+      <ellipse cx="470" cy="415" rx="70" ry="35" stroke="#666666" stroke-width="2" fill="#f0f0f0"/>
+      <text x="470" y="410" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">View Learning</text>
+      <text x="470" y="422" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Velocity</text>
+    </g>
+    
+    <!-- Track Real-World Success -->
+    <g id="track-real-world">
+      <ellipse cx="670" cy="445" rx="70" ry="35" stroke="#0066cc" stroke-width="2" fill="#e6f3ff"/>
+      <text x="670" y="435" font-family="Arial" font-size="10" text-anchor="middle" fill="#000000">Track Real-World</text>
+      <text x="670" y="447" font-family="Arial" font-size="10" text-anchor="middle" fill="#000000">Application</text>
+      <text x="670" y="459" font-family="Arial" font-size="10" text-anchor="middle" fill="#000000">Success</text>
+    </g>
+    
+    <!-- Generate Analytics Report -->
+    <g id="generate-report">
+      <ellipse cx="845" cy="215" rx="65" ry="30" stroke="#6c8ebf" stroke-width="2" fill="#dae8fc"/>
+      <text x="845" y="210" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Generate</text>
+      <text x="845" y="222" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Analytics Report</text>
+    </g>
+    
+    <!-- Calculate Trends -->
+    <g id="calculate-trends">
+      <ellipse cx="845" cy="315" rx="65" ry="30" stroke="#6c8ebf" stroke-width="2" fill="#dae8fc"/>
+      <text x="845" y="310" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Calculate</text>
+      <text x="845" y="322" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Performance Trends</text>
+    </g>
+    
+    <!-- Send Progress Notifications -->
+    <g id="send-notifications">
+      <ellipse cx="845" cy="485" rx="65" ry="30" stroke="#d6b656" stroke-width="2" fill="#fff2cc"/>
+      <text x="845" y="480" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Send Progress</text>
+      <text x="845" y="492" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Notifications</text>
+    </g>
+    
+    <!-- Identify Weak Areas -->
+    <g id="identify-weak-areas">
+      <ellipse cx="845" cy="415" rx="65" ry="30" stroke="#ff9933" stroke-width="2" fill="#ffcc99"/>
+      <text x="845" y="410" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Identify</text>
+      <text x="845" y="422" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Weak Areas</text>
+    </g>
+    
+    <!-- Monitor Goal Progress -->
+    <g id="monitor-goals">
+      <ellipse cx="470" cy="555" rx="70" ry="30" stroke="#b85450" stroke-width="2" fill="#f8cecc"/>
+      <text x="470" y="550" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Monitor Goal</text>
+      <text x="470" y="562" font-family="Arial" font-size="11" text-anchor="middle" fill="#000000">Progress</text>
+    </g>
+    
+    <!-- Associations -->
+    
+    <!-- User to Use Cases -->
+    <line x1="80" y1="330" x2="200" y2="185" stroke="#82b366" stroke-width="2"/>
+    <line x1="80" y1="330" x2="400" y2="155" stroke="#82b366" stroke-width="2"/>
+    <line x1="80" y1="330" x2="600" y2="185" stroke="#82b366" stroke-width="2"/>
+    <line x1="80" y1="330" x2="200" y2="315" stroke="#82b366" stroke-width="2"/>
+    <line x1="80" y1="330" x2="400" y2="285" stroke="#82b366" stroke-width="2"/>
+    <line x1="80" y1="330" x2="600" y2="315" stroke="#82b366" stroke-width="2"/>
+    <line x1="80" y1="330" x2="200" y2="445" stroke="#82b366" stroke-width="2"/>
+    <line x1="80" y1="330" x2="400" y2="415" stroke="#82b366" stroke-width="2"/>
+    <line x1="80" y1="330" x2="600" y2="445" stroke="#82b366" stroke-width="2"/>
+    
+    <!-- Analytics System to Use Cases -->
+    <line x1="1050" y1="230" x2="910" y2="215" stroke="#6c8ebf" stroke-width="2"/>
+    <line x1="1050" y1="230" x2="910" y2="315" stroke="#6c8ebf" stroke-width="2"/>
+    <line x1="1050" y1="230" x2="910" y2="415" stroke="#6c8ebf" stroke-width="2"/>
+    
+    <!-- Notification System to Use Cases -->
+    <line x1="1050" y1="480" x2="910" y2="485" stroke="#d6b656" stroke-width="2"/>
+    
+    <!-- Include Relationships -->
+    
+    <!-- View Trends includes Calculate Trends -->
+    <line x1="540" y1="285" x2="780" y2="315" stroke="#666666" stroke-width="1" stroke-dasharray="5,5"/>
+    <text x="660" y="295" font-family="Arial" font-size="10" text-anchor="middle" fill="#666666">&lt;&lt;include&gt;&gt;</text>
+    
+    <!-- Get Recommendations includes Identify Weak Areas -->
+    <line x1="740" y1="315" x2="780" y2="415" stroke="#666666" stroke-width="1" stroke-dasharray="5,5"/>
+    <text x="760" y="355" font-family="Arial" font-size="10" text-anchor="middle" fill="#666666">&lt;&lt;include&gt;&gt;</text>
+    
+    <!-- Track Progress includes Generate Report -->
+    <line x1="740" y1="185" x2="780" y2="215" stroke="#666666" stroke-width="1" stroke-dasharray="5,5"/>
+    <text x="760" y="195" font-family="Arial" font-size="10" text-anchor="middle" fill="#666666">&lt;&lt;include&gt;&gt;</text>
+    
+    <!-- Set Goals includes Monitor Goals -->
+    <line x1="340" y1="315" x2="400" y2="555" stroke="#666666" stroke-width="1" stroke-dasharray="5,5"/>
+    <text x="370" y="435" font-family="Arial" font-size="10" text-anchor="middle" fill="#666666">&lt;&lt;include&gt;&gt;</text>
+    
+    <!-- Extend Relationships -->
+    
+    <!-- Track Streaks extends Send Notifications -->
+    <line x1="340" y1="445" x2="780" y2="485" stroke="#d6b656" stroke-width="1" stroke-dasharray="5,5"/>
+    <text x="560" y="460" font-family="Arial" font-size="10" text-anchor="middle" fill="#d6b656">&lt;&lt;extend&gt;&gt;</text>
+    
+    <!-- Title -->
+    <text x="550" y="50" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#000000">Use Case Diagram 2: Progress Tracking &amp; Analytics</text>
+    
+  </g>
+</gliffy:diagram>

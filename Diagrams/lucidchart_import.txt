@@ -1,0 +1,308 @@
+@startuml
+
+class User {
+  -userId: String
+  -email: String
+  -username: String
+  -password: String
+  -createdAt: Date
+  -lastLoginAt: Date
+  -subscriptionStatus: SubscriptionType
+  -profileImage: String
+  +login()
+  +logout()
+  +register()
+  +updateProfile()
+  +resetPassword()
+}
+
+class UserProfile {
+  -profileId: String
+  -userId: String
+  -firstName: String
+  -lastName: String
+  -dateOfBirth: Date
+  -onboardingCompleted: Boolean
+  -personalizedPath: LearningPath
+  +completeOnboarding()
+  +updatePersonalizedPath()
+}
+
+class Assessment {
+  -assessmentId: String
+  -userId: String
+  -questions: List<AssessmentQuestion>
+  -responses: List<AssessmentResponse>
+  -completedAt: Date
+  -results: AssessmentResults
+  +startAssessment()
+  +submitResponse()
+  +calculateResults()
+  +generatePersonalizedPath()
+}
+
+class AssessmentQuestion {
+  -questionId: String
+  -questionText: String
+  -questionType: QuestionType
+  -options: List<String>
+  -correctAnswer: String
+  -intuitionCategory: IntuitionType
+}
+
+class AssessmentResults {
+  -resultsId: String
+  -userId: String
+  -overallScore: Integer
+  -categoryScores: Map<IntuitionType, Integer>
+  -strengths: List<IntuitionType>
+  -weaknesses: List<IntuitionType>
+  -recommendedPath: LearningPath
+}
+
+class Minigame {
+  -gameId: String
+  -gameName: String
+  -gameType: MinigameType
+  -description: String
+  -instructions: String
+  -difficultyLevels: List<DifficultyLevel>
+  -intuitionCategory: IntuitionType
+  -isPremium: Boolean
+  +startGame()
+  +pauseGame()
+  +resumeGame()
+  +endGame()
+  +calculateScore()
+}
+
+class MinigameSession {
+  -sessionId: String
+  -userId: String
+  -gameId: String
+  -startTime: Date
+  -endTime: Date
+  -score: Integer
+  -accuracy: Float
+  -speed: Float
+  -difficulty: DifficultyLevel
+  -hintsUsed: Integer
+  -completed: Boolean
+  +recordAnswer()
+  +useHint()
+  +calculateFinalScore()
+}
+
+class PatternRecognitionGame {
+  -patterns: List<Pattern>
+  -timeLimit: Integer
+  +generatePattern()
+  +checkPatternMatch()
+  +provideFeedback()
+}
+
+class SocialIntuitionGame {
+  -scenarios: List<SocialScenario>
+  -expressions: List<FacialExpression>
+  +presentScenario()
+  +analyzeResponse()
+  +scoreEmotionalAccuracy()
+}
+
+class DecisionMakingGame {
+  -scenarios: List<DecisionScenario>
+  -riskFactors: List<RiskFactor>
+  +presentDecision()
+  +evaluateChoice()
+  +calculateRiskAssessment()
+}
+
+class UserProgress {
+  -progressId: String
+  -userId: String
+  -overallIntuitionScore: Integer
+  -categoryScores: Map<IntuitionType, Integer>
+  -totalGamesPlayed: Integer
+  -currentStreak: Integer
+  -longestStreak: Integer
+  -lastActivityDate: Date
+  +updateScore()
+  +incrementStreak()
+  +resetStreak()
+  +calculateImprovement()
+}
+
+class Analytics {
+  -analyticsId: String
+  -userId: String
+  -performanceTrends: List<PerformanceTrend>
+  -learningVelocity: Float
+  -weakestAreas: List<IntuitionType>
+  -improvementAreas: List<IntuitionType>
+  -realWorldSuccesses: Integer
+  +generateReport()
+  +identifyTrends()
+  +calculateVelocity()
+  +recommendTraining()
+}
+
+class Goal {
+  -goalId: String
+  -userId: String
+  -goalType: GoalType
+  -targetValue: Integer
+  -currentValue: Integer
+  -deadline: Date
+  -achieved: Boolean
+  -createdAt: Date
+  +updateProgress()
+  +checkAchievement()
+  +calculateCompletion()
+}
+
+class Leaderboard {
+  -leaderboardId: String
+  -leaderboardType: LeaderboardType
+  -timeFrame: TimeFrame
+  -rankings: List<UserRanking>
+  -lastUpdated: Date
+  +updateRankings()
+  +getUserRank()
+  +getTopUsers()
+}
+
+class UserRanking {
+  -rankingId: String
+  -userId: String
+  -rank: Integer
+  -score: Integer
+  -category: IntuitionType
+  -timeFrame: TimeFrame
+}
+
+class Challenge {
+  -challengeId: String
+  -challengeName: String
+  -description: String
+  -challengeType: ChallengeType
+  -startDate: Date
+  -endDate: Date
+  -participants: List<String>
+  -winners: List<String>
+  -isActive: Boolean
+  +joinChallenge()
+  +leaveChallenge()
+  +calculateWinners()
+  +distributeRewards()
+}
+
+class Achievement {
+  -achievementId: String
+  -achievementName: String
+  -description: String
+  -badgeIcon: String
+  -category: AchievementCategory
+  -requirements: List<AchievementRequirement>
+  -rarity: AchievementRarity
+  +checkEligibility()
+  +awardToUser()
+}
+
+class UserAchievement {
+  -userAchievementId: String
+  -userId: String
+  -achievementId: String
+  -earnedAt: Date
+  -shared: Boolean
+  +shareAchievement()
+}
+
+class Friendship {
+  -friendshipId: String
+  -userId1: String
+  -userId2: String
+  -status: FriendshipStatus
+  -createdAt: Date
+  -acceptedAt: Date
+  +sendFriendRequest()
+  +acceptRequest()
+  +rejectRequest()
+  +removeFriend()
+}
+
+class Subscription {
+  -subscriptionId: String
+  -userId: String
+  -planType: SubscriptionPlan
+  -status: SubscriptionStatus
+  -startDate: Date
+  -endDate: Date
+  -autoRenew: Boolean
+  -paymentMethod: String
+  +upgrade()
+  +downgrade()
+  +cancel()
+  +renew()
+  +checkAccess()
+}
+
+class PremiumFeature {
+  -featureId: String
+  -featureName: String
+  -description: String
+  -requiredPlan: SubscriptionPlan
+  -isActive: Boolean
+  +checkUserAccess()
+  +enableFeature()
+  +disableFeature()
+}
+
+class Notification {
+  -notificationId: String
+  -userId: String
+  -title: String
+  -message: String
+  -type: NotificationType
+  -createdAt: Date
+  -readAt: Date
+  -actionUrl: String
+  +markAsRead()
+  +dismiss()
+  +performAction()
+}
+
+class DailyChallenge {
+  -challengeId: String
+  -date: Date
+  -challengeText: String
+  -category: IntuitionType
+  -difficulty: DifficultyLevel
+  -participants: List<String>
+  -completions: List<String>
+  +generateDaily()
+  +markComplete()
+  +getResults()
+}
+
+' Relationships
+User ||--|| UserProfile
+User ||--o{ Assessment
+User ||--|| UserProgress
+User ||--o{ MinigameSession
+User ||--o{ Goal
+User ||--o| Subscription
+User ||--o{ UserAchievement
+User ||--o{ Friendship
+User ||--o{ Notification
+
+Minigame ||--o{ MinigameSession
+Assessment ||--|| AssessmentResults
+Challenge ||--o{ User
+Achievement ||--o{ UserAchievement
+Leaderboard ||--o{ UserRanking
+
+PatternRecognitionGame --|> Minigame
+SocialIntuitionGame --|> Minigame
+DecisionMakingGame --|> Minigame
+
+@enduml

@@ -1,0 +1,148 @@
+@startuml "User Onboarding & Authentication Use Case Diagram"
+
+!theme aws-orange
+
+' Global background and contrast settings
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontColor #000000
+
+' Custom colors for actors OUTSIDE system (high contrast for dark backgrounds)
+skinparam actor {
+  BackgroundColor #FFFFFF
+  BorderColor #000000
+  BorderThickness 3
+  FontColor #000000
+  FontSize 14
+  FontStyle bold
+}
+
+' Custom colors for use cases INSIDE system
+skinparam usecase {
+  BackgroundColor #DAE8FC
+  BorderColor #2E86C1
+  BorderThickness 2
+  FontColor #000000
+  FontSize 11
+  FontStyle normal
+}
+
+' Custom colors for system boundary (clear distinction)
+skinparam rectangle {
+  BackgroundColor #F0F8FF
+  BorderColor #2E86C1
+  BorderThickness 4
+  FontColor #2E86C1
+  FontSize 16
+  FontStyle bold
+}
+
+' Custom arrow styling with high contrast
+skinparam arrow {
+  Color #000000
+  Thickness 3
+}
+
+' Note styling for visibility
+skinparam note {
+  BackgroundColor #FFFACD
+  BorderColor #DAA520
+  BorderThickness 2
+  FontColor #000000
+}
+
+' Title styling
+title <size:20><color:#2E86C1><b>🎯 Guest-First Conversion & Authentication System</b></color></size>
+
+' System boundary
+rectangle "Intuition Training App\n(Value-First Onboarding & Authentication)" as system {
+  
+  ' Guest experience use cases (no auth needed)
+  package "Guest Experience" {
+    usecase "Take Assessment\n(Anonymous)" as UC1 #FFE4B5
+    usecase "View Personalized\nLearning Path" as UC2 #F8CECC
+    usecase "Choose Subscription\nPlan" as UC3 #90EE90
+  }
+  
+  ' Authentication use cases (after subscription)
+  package "Authentication" {
+    usecase "Sign In with Google" as UC4 #4285F4
+    usecase "Sign In with Apple" as UC5 #000000
+    usecase "Validate\nOAuth Token" as UC6 #FFF2CC
+  }
+  
+  ' Profile management use cases
+  package "Profile Creation" {
+    usecase "Create User Profile\nwith Assessment Data" as UC7 #E8F5E8
+    usecase "Save Learning Path\nto Profile" as UC8 #DDA0DD
+    usecase "Logout" as UC9 #FF6B6B
+  }
+}
+
+' Actors OUTSIDE system with high contrast styling
+actor "👤 Guest User" as GuestUser #FFFFFF
+actor "💳 Subscription User" as SubUser #FFFFFF
+actor "🔍 Google OAuth" as GoogleOAuth #FFFFFF  
+actor "🍎 Apple ID" as AppleID #FFFFFF
+
+' Guest user flow (anonymous, no auth needed) - THICK BLACK LINES
+GuestUser -[#000000,thickness=4]-> UC1 : <color:#000000><size:11><b>takes assessment</b></size></color>
+GuestUser -[#000000,thickness=4]-> UC2 : <color:#000000><size:11><b>views results</b></size></color>
+GuestUser -[#000000,thickness=4]-> UC3 : <color:#000000><size:11><b>chooses plan</b></size></color>
+
+' Subscription user flow (after payment commitment) - THICK DARK BLUE LINES
+SubUser -[#003366,thickness=4]-> UC4 : <color:#003366><size:11><b>chooses Google</b></size></color>
+SubUser -[#003366,thickness=4]-> UC5 : <color:#003366><size:11><b>chooses Apple</b></size></color>
+SubUser -[#CC0000,thickness=4]-> UC9 : <color:#CC0000><size:11><b>signs out</b></size></color>
+
+' OAuth provider associations - THICK COLORED LINES
+GoogleOAuth -[#4285F4,thickness=4]-> UC4 : <color:#4285F4><size:11><b>authenticates</b></size></color>
+AppleID -[#000000,thickness=4]-> UC5 : <color:#000000><size:11><b>authenticates</b></size></color>
+
+' Sequential flow relationships (guest journey) - THICK AND VISIBLE
+UC1 -[#FF4500,thickness=5]-> UC2 : <color:#FF4500><size:12><b>leads to</b></size></color>
+UC2 -[#FF4500,thickness=5]-> UC3 : <color:#FF4500><size:12><b>motivates</b></size></color>
+
+' Include relationships (authentication flow) - BLUE AND THICK
+UC4 -[#0066CC,thickness=3,dashed]-> UC6 : <color:#0066CC><size:11><b><<include>></b></size></color>
+UC5 -[#0066CC,thickness=3,dashed]-> UC6 : <color:#0066CC><size:11><b><<include>></b></size></color>
+UC4 -[#0066CC,thickness=3,dashed]-> UC7 : <color:#0066CC><size:11><b><<include>></b></size></color>
+UC5 -[#0066CC,thickness=3,dashed]-> UC7 : <color:#0066CC><size:11><b><<include>></b></size></color>
+
+' Include relationships (profile creation) - PURPLE AND THICK
+UC7 -[#9933CC,thickness=3,dashed]-> UC8 : <color:#9933CC><size:11><b><<include>></b></size></color>
+
+' Transformation relationship (guest becomes subscriber) - GREEN AND THICK
+UC3 -[#00AA00,thickness=4,dotted]-> UC4 : <color:#00AA00><size:12><b><<transforms to>></b></size></color>
+UC3 -[#00AA00,thickness=4,dotted]-> UC5 : <color:#00AA00><size:12><b><<transforms to>></b></size></color>
+
+' Notes for additional context
+note right of UC1 : <color:#FFE4B5><b>🌟 Anonymous Assessment</b></color>\nNo registration required\nPersonalized results\nBuilds investment
+
+note right of UC2 : <color:#F8CECC><b>🎯 Value Demonstration</b></color>\nCustomized learning path\nShows app potential\nMotivates subscription
+
+note right of UC3 : <color:#90EE90><b>💳 Conversion Point</b></color>\nSuperwall integration\nAfter seeing value\nCommitment-based
+
+note right of UC4 : <color:#4285F4><b>🔍 Google OAuth</b></color>\nPost-subscription auth\nSecure token flow\nProfile creation
+
+note right of UC7 : <color:#E8F5E8><b>💾 Data Preservation</b></color>\nSaves assessment results\nStores learning path\nPersonalized profile
+
+' Conversion flow note
+note top of system : <color:#FF6B35><b>🔄 Conversion Flow</b></color>\nGuest Experience → Value Demo → Subscription → Authentication → Profile
+
+' Legend with thick line examples
+legend bottom
+  <color:#FFE4B5>■</color> Guest Experience (No Auth)
+  <color:#90EE90>■</color> Subscription Process
+  <color:#4285F4>■</color> Google Authentication
+  <color:#000000>■</color> Apple Authentication  
+  <color:#E8F5E8>■</color> Profile Management
+  <color:#FF4500><b>━━━</b></color> Sequential Flow (Thick Orange)
+  <color:#0066CC><b>- - -</b></color> Include Relationship (Thick Blue)
+  <color:#00AA00><b>∙ ∙ ∙</b></color> Transformation (Thick Green)
+  <color:#000000><b>───</b></color> Actor Associations (Thick Black)
+endlegend
+
+' Footer
+center footer <color:#666666><i>Generated for Intuition Training App - Onboarding & Authentication Module</i></color>
+
+@enduml

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="lucidchart.com" modified="2024-01-01T00:00:00.000Z" agent="Lucidchart" etag="version" version="1.0">
+  <diagram name="Intuition App Class Diagram" id="class-diagram">
+    <mxGraphModel dx="2074" dy="1196" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- User Class -->
+        <mxCell id="user-class" value="User" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="400" y="50" width="280" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="user-attributes" value="- userId: String&#xa;- email: String&#xa;- username: String&#xa;- password: String&#xa;- createdAt: Date&#xa;- lastLoginAt: Date&#xa;- subscriptionStatus: SubscriptionType&#xa;- profileImage: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="user-class">
+          <mxGeometry y="30" width="280" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="user-separator" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#82b366;" vertex="1" parent="user-class">
+          <mxGeometry y="150" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="user-methods" value="+ login(): void&#xa;+ logout(): void&#xa;+ register(): void&#xa;+ updateProfile(): void&#xa;+ resetPassword(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="user-class">
+          <mxGeometry y="158" width="280" height="82" as="geometry" />
+        </mxCell>
+
+        <!-- UserProfile Class -->
+        <mxCell id="userprofile-class" value="UserProfile" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="750" y="50" width="300" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="userprofile-attributes" value="- profileId: String&#xa;- userId: String&#xa;- firstName: String&#xa;- lastName: String&#xa;- dateOfBirth: Date&#xa;- onboardingCompleted: Boolean&#xa;- personalizedPath: LearningPath" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="userprofile-class">
+          <mxGeometry y="30" width="300" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="userprofile-separator" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#d6b656;" vertex="1" parent="userprofile-class">
+          <mxGeometry y="135" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="userprofile-methods" value="+ completeOnboarding(): void&#xa;+ updatePersonalizedPath(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="userprofile-class">
+          <mxGeometry y="143" width="300" height="57" as="geometry" />
+        </mxCell>
+
+        <!-- Minigame Class -->
+        <mxCell id="minigame-class" value="Minigame" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="50" y="350" width="320" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="minigame-attributes" value="- gameId: String&#xa;- gameName: String&#xa;- gameType: MinigameType&#xa;- description: String&#xa;- instructions: String&#xa;- difficultyLevels: List&lt;DifficultyLevel&gt;&#xa;- intuitionCategory: IntuitionType&#xa;- isPremium: Boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="minigame-class">
+          <mxGeometry y="30" width="320" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="minigame-separator" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#9673a6;" vertex="1" parent="minigame-class">
+          <mxGeometry y="150" width="320" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="minigame-methods" value="+ startGame(): void&#xa;+ pauseGame(): void&#xa;+ resumeGame(): void&#xa;+ endGame(): void&#xa;+ calculateScore(): Integer" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="minigame-class">
+          <mxGeometry y="158" width="320" height="102" as="geometry" />
+        </mxCell>
+
+        <!-- MinigameSession Class -->
+        <mxCell id="minigamesession-class" value="MinigameSession" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="450" y="350" width="280" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="minigamesession-attributes" value="- sessionId: String&#xa;- userId: String&#xa;- gameId: String&#xa;- startTime: Date&#xa;- endTime: Date&#xa;- score: Integer&#xa;- accuracy: Float&#xa;- speed: Float&#xa;- difficulty: DifficultyLevel&#xa;- hintsUsed: Integer&#xa;- completed: Boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="minigamesession-class">
+          <mxGeometry y="30" width="280" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="minigamesession-separator" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#b85450;" vertex="1" parent="minigamesession-class">
+          <mxGeometry y="195" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="minigamesession-methods" value="+ recordAnswer(): void&#xa;+ useHint(): void&#xa;+ calculateFinalScore(): Integer" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="minigamesession-class">
+          <mxGeometry y="203" width="280" height="97" as="geometry" />
+        </mxCell>
+
+        <!-- UserProgress Class -->
+        <mxCell id="userprogress-class" value="UserProgress" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="800" y="350" width="340" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="userprogress-attributes" value="- progressId: String&#xa;- userId: String&#xa;- overallIntuitionScore: Integer&#xa;- categoryScores: Map&lt;IntuitionType, Integer&gt;&#xa;- totalGamesPlayed: Integer&#xa;- currentStreak: Integer&#xa;- longestStreak: Integer&#xa;- lastActivityDate: Date" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="userprogress-class">
+          <mxGeometry y="30" width="340" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="userprogress-separator" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#6c8ebf;" vertex="1" parent="userprogress-class">
+          <mxGeometry y="150" width="340" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="userprogress-methods" value="+ updateScore(): void&#xa;+ incrementStreak(): void&#xa;+ resetStreak(): void&#xa;+ calculateImprovement(): Float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="userprogress-class">
+          <mxGeometry y="158" width="340" height="122" as="geometry" />
+        </mxCell>
+
+        <!-- Subscription Class -->
+        <mxCell id="subscription-class" value="Subscription" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#ffcc99;strokeColor=#ff9933;fontColor=#000000;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="50" y="700" width="280" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="subscription-attributes" value="- subscriptionId: String&#xa;- userId: String&#xa;- planType: SubscriptionPlan&#xa;- status: SubscriptionStatus&#xa;- startDate: Date&#xa;- endDate: Date&#xa;- autoRenew: Boolean&#xa;- paymentMethod: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="subscription-class">
+          <mxGeometry y="30" width="280" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="subscription-separator" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#ff9933;" vertex="1" parent="subscription-class">
+          <mxGeometry y="150" width="280" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="subscription-methods" value="+ upgrade(): void&#xa;+ downgrade(): void&#xa;+ cancel(): void&#xa;+ renew(): void&#xa;+ checkAccess(): Boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="subscription-class">
+          <mxGeometry y="158" width="280" height="102" as="geometry" />
+        </mxCell>
+
+        <!-- Leaderboard Class -->
+        <mxCell id="leaderboard-class" value="Leaderboard" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#000000;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="400" y="700" width="300" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="leaderboard-attributes" value="- leaderboardId: String&#xa;- leaderboardType: LeaderboardType&#xa;- timeFrame: TimeFrame&#xa;- rankings: List&lt;UserRanking&gt;&#xa;- lastUpdated: Date" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="leaderboard-class">
+          <mxGeometry y="30" width="300" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="leaderboard-separator" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#d79b00;" vertex="1" parent="leaderboard-class">
+          <mxGeometry y="105" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="leaderboard-methods" value="+ updateRankings(): void&#xa;+ getUserRank(userId: String): Integer&#xa;+ getTopUsers(limit: Integer): List&lt;User&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="leaderboard-class">
+          <mxGeometry y="113" width="300" height="107" as="geometry" />
+        </mxCell>
+
+        <!-- Challenge Class -->
+        <mxCell id="challenge-class" value="Challenge" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#f0f0f0;strokeColor=#666666;fontColor=#000000;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="750" y="700" width="300" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="challenge-attributes" value="- challengeId: String&#xa;- challengeName: String&#xa;- description: String&#xa;- challengeType: ChallengeType&#xa;- startDate: Date&#xa;- endDate: Date&#xa;- participants: List&lt;String&gt;&#xa;- winners: List&lt;String&gt;&#xa;- isActive: Boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="challenge-class">
+          <mxGeometry y="30" width="300" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="challenge-separator" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#666666;" vertex="1" parent="challenge-class">
+          <mxGeometry y="165" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="challenge-methods" value="+ joinChallenge(userId: String): void&#xa;+ leaveChallenge(userId: String): void&#xa;+ calculateWinners(): void&#xa;+ distributeRewards(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="challenge-class">
+          <mxGeometry y="173" width="300" height="107" as="geometry" />
+        </mxCell>
+
+        <!-- Relationships -->
+        
+        <!-- User to UserProfile (1:1) -->
+        <mxCell id="user-userprofile-relation" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="user-class" target="userprofile-class">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-userprofile-label" value="1" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-userprofile-relation">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-userprofile-label2" value="1" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-userprofile-relation">
+          <mxGeometry x="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- User to MinigameSession (1:many) -->
+        <mxCell id="user-minigamesession-relation" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="user-class" target="minigamesession-class">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-minigamesession-label" value="1" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-minigamesession-relation">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-minigamesession-label2" value="*" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-minigamesession-relation">
+          <mxGeometry x="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- User to UserProgress (1:1) -->
+        <mxCell id="user-userprogress-relation" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="user-class" target="userprogress-class">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-userprogress-label" value="1" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-userprogress-relation">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-userprogress-label2" value="1" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-userprogress-relation">
+          <mxGeometry x="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- User to Subscription (1:0..1) -->
+        <mxCell id="user-subscription-relation" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="user-class" target="subscription-class">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-subscription-label" value="1" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-subscription-relation">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-subscription-label2" value="0..1" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-subscription-relation">
+          <mxGeometry x="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Minigame to MinigameSession (1:many) -->
+        <mxCell id="minigame-minigamesession-relation" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="minigame-class" target="minigamesession-class">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="minigame-minigamesession-label" value="1" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="minigame-minigamesession-relation">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="minigame-minigamesession-label2" value="*" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="minigame-minigamesession-relation">
+          <mxGeometry x="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- User to Challenge (many:many) -->
+        <mxCell id="user-challenge-relation" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="user-class" target="challenge-class">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-challenge-label" value="*" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-challenge-relation">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-challenge-label2" value="*" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-challenge-relation">
+          <mxGeometry x="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- User to Leaderboard (many:many) -->
+        <mxCell id="user-leaderboard-relation" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="user-class" target="leaderboard-class">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-leaderboard-label" value="*" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-leaderboard-relation">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-leaderboard-label2" value="*" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontStyle=1;" connectable="0" vertex="1" parent="user-leaderboard-relation">
+          <mxGeometry x="1" relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
