@@ -1,6 +1,16 @@
-@startuml "Progress Tracking & Analytics Use Case Diagram"
+@startuml "Core Training Experience Use Case Diagram"
 
 !theme aws-orange
+
+' Page layout optimization for 8.5" x 11" (portrait)
+skinparam page {
+  BackgroundColor #FFFFFF
+  BorderColor #CCCCCC
+  BorderThickness 1
+}
+
+' Optimize layout direction for portrait
+!define DIRECTION top to bottom direction
 
 ' Global background and contrast settings
 skinparam backgroundColor #FFFFFF
@@ -12,17 +22,17 @@ skinparam actor {
   BorderColor #000000
   BorderThickness 3
   FontColor #000000
-  FontSize 14
+  FontSize 12
   FontStyle bold
 }
 
-' Custom colors for use cases INSIDE system
+' Custom colors for use cases INSIDE system (smaller for portrait)
 skinparam usecase {
   BackgroundColor #DAE8FC
   BorderColor #2E86C1
   BorderThickness 2
   FontColor #000000
-  FontSize 10
+  FontSize 9
   FontStyle normal
 }
 
@@ -30,137 +40,112 @@ skinparam usecase {
 skinparam rectangle {
   BackgroundColor #F0F8FF
   BorderColor #2E86C1
-  BorderThickness 4
+  BorderThickness 3
   FontColor #2E86C1
-  FontSize 16
+  FontSize 14
   FontStyle bold
 }
 
 ' Custom arrow styling with high contrast
 skinparam arrow {
   Color #000000
-  Thickness 3
+  Thickness 2
 }
 
-' Package styling for better organization
+' Package styling for better organization (compact)
 skinparam package {
   BackgroundColor #F8F9FA
   BorderColor #6C8EBF
   BorderThickness 2
   FontColor #2E86C1
-  FontSize 12
+  FontSize 10
   FontStyle bold
 }
 
-' Note styling for visibility
+' Note styling for visibility (smaller)
 skinparam note {
   BackgroundColor #FFFACD
   BorderColor #DAA520
   BorderThickness 2
   FontColor #000000
+  FontSize 8
 }
 
-' Title styling
-title <size:20><color:#2E86C1><b>🎮 Core Training Experience System</b></color></size>
+' Title styling (smaller for portrait)
+title <size:16><color:#2E86C1><b>🎮 Core Training Experience</b></color></size>
 
-' System boundary
-rectangle "Intuition Training App\n(Core Training & Minigames)" as system {
-  
-  ' Pattern Recognition Training
-  package "Pattern Recognition Training" {
-    usecase "Play Pattern Recognition\nMinigames" as UC1 #FFE4B5
-  }
-  
-  ' Social Intuition Training
-  package "Social Intuition Training" {
-    usecase "Play Social Intuition\nMinigames" as UC2 #F8CECC
-  }
-  
-  ' Decision Making Training
-  package "Decision Making Training" {
-    usecase "Play Decision Making\nMinigames" as UC3 #90EE90
-  }
-  
-  ' Creative Intuition Training
-  package "Creative Intuition Training" {
-    usecase "Play Creative Intuition\nMinigames" as UC4 #DDA0DD
-  }
-  
-  ' Training Support Functions
-  package "Training Support" {
-    usecase "Select Difficulty\nLevel" as UC5 #E6F3FF
-    usecase "Use Hints During\nTraining" as UC6 #E6F3FF
-    usecase "Pause and Resume\nTraining" as UC7 #E6F3FF
-    usecase "View Game\nInstructions" as UC8 #E6F3FF
-    usecase "Get Real-Time\nFeedback" as UC9 #E6F3FF
-    usecase "Track Training\nProgress" as UC10 #E6F3FF
-  }
-}
-
-' Actors OUTSIDE system with high contrast styling
-actor "👤 Authenticated User" as User #FFFFFF
-actor "🎮 Game Engine" as GameEngine #FFFFFF
+' Actors positioned for portrait layout
+actor "👤 User" as User #FFFFFF
+actor "🎮 Game Engine" as GameEngine #FFFFFF  
 actor "📊 Progress Tracker" as ProgressTracker #FFFFFF
 
-' User associations - Core Training
-User -[#FFB347,thickness=4]-> UC1 : <color:#FFB347><size:11><b>trains pattern recognition</b></size></color>
-User -[#FF69B4,thickness=4]-> UC2 : <color:#FF69B4><size:11><b>trains social intuition</b></size></color>
-User -[#32CD32,thickness=4]-> UC3 : <color:#32CD32><size:11><b>trains decision making</b></size></color>
-User -[#9370DB,thickness=4]-> UC4 : <color:#9370DB><size:11><b>trains creative thinking</b></size></color>
+' System boundary - vertical layout
+rectangle "Intuition Training App" as system {
+  
+  ' Core Training - arranged vertically
+  package "Core Training Types" {
+    usecase "Pattern Recognition\nTraining" as UC1 #FFE4B5
+    usecase "Social Intuition\nTraining" as UC2 #F8CECC  
+    usecase "Decision Making\nTraining" as UC3 #90EE90
+    usecase "Creative Intuition\nTraining" as UC4 #DDA0DD
+  }
+  
+  ' Training Support - arranged in 2x3 grid for compactness
+  package "Training Support" {
+    usecase "Select Difficulty" as UC5 #E6F3FF
+    usecase "Use Hints" as UC6 #E6F3FF
+    usecase "Pause/Resume" as UC7 #E6F3FF
+    usecase "View Instructions" as UC8 #E6F3FF
+    usecase "Get Feedback" as UC9 #E6F3FF
+    usecase "Track Progress" as UC10 #E6F3FF
+  }
+}
 
-' User associations - Training Support
-User -[#4169E1,thickness=3]-> UC5 : <color:#4169E1><size:11><b>selects level</b></size></color>
-User -[#4169E1,thickness=3]-> UC6 : <color:#4169E1><size:11><b>uses hints</b></size></color>
-User -[#4169E1,thickness=3]-> UC7 : <color:#4169E1><size:11><b>pauses/resumes</b></size></color>
-User -[#4169E1,thickness=3]-> UC8 : <color:#4169E1><size:11><b>reads instructions</b></size></color>
+' User associations - Core Training (simplified labels for portrait)
+User -[#FFB347,thickness=3]-> UC1 : <color:#FFB347><size:9><b>trains</b></size></color>
+User -[#FF69B4,thickness=3]-> UC2 : <color:#FF69B4><size:9><b>trains</b></size></color>
+User -[#32CD32,thickness=3]-> UC3 : <color:#32CD32><size:9><b>trains</b></size></color>
+User -[#9370DB,thickness=3]-> UC4 : <color:#9370DB><size:9><b>trains</b></size></color>
 
-' System associations
-GameEngine -[#FF4500,thickness=4]-> UC9 : <color:#FF4500><size:11><b>provides feedback</b></size></color>
-ProgressTracker -[#DC143C,thickness=4]-> UC10 : <color:#DC143C><size:11><b>tracks progress</b></size></color>
+' User associations - Training Support (simplified)
+User -[#4169E1,thickness=2]-> UC5 : <color:#4169E1><size:8><b>selects</b></size></color>
+User -[#4169E1,thickness=2]-> UC6 : <color:#4169E1><size:8><b>uses</b></size></color>
+User -[#4169E1,thickness=2]-> UC7 : <color:#4169E1><size:8><b>controls</b></size></color>
+User -[#4169E1,thickness=2]-> UC8 : <color:#4169E1><size:8><b>views</b></size></color>
 
-' Include relationships - Training Support Functions
-UC1 -[#0066CC,thickness=3,dashed]-> UC5 : <color:#0066CC><size:10><b><<include>></b></size></color>
-UC1 -[#0066CC,thickness=3,dashed]-> UC9 : <color:#0066CC><size:10><b><<include>></b></size></color>
-UC1 -[#0066CC,thickness=3,dashed]-> UC10 : <color:#0066CC><size:10><b><<include>></b></size></color>
+' System associations (simplified)
+GameEngine -[#FF4500,thickness=3]-> UC9 : <color:#FF4500><size:9><b>provides</b></size></color>
+ProgressTracker -[#DC143C,thickness=3]-> UC10 : <color:#DC143C><size:9><b>tracks</b></size></color>
 
-UC2 -[#0066CC,thickness=3,dashed]-> UC5 : <color:#0066CC><size:10><b><<include>></b></size></color>
-UC2 -[#0066CC,thickness=3,dashed]-> UC9 : <color:#0066CC><size:10><b><<include>></b></size></color>
+' Include relationships - Core functions (simplified for portrait)
+UC1 -[#0066CC,thickness=2,dashed]-> UC5 : <color:#0066CC><size:8><b><<include>></b></size></color>
+UC1 -[#0066CC,thickness=2,dashed]-> UC9 : <color:#0066CC><size:8><b><<include>></b></size></color>
+UC2 -[#0066CC,thickness=2,dashed]-> UC5 : <color:#0066CC><size:8><b><<include>></b></size></color>
+UC3 -[#0066CC,thickness=2,dashed]-> UC9 : <color:#0066CC><size:8><b><<include>></b></size></color>
+UC4 -[#0066CC,thickness=2,dashed]-> UC10 : <color:#0066CC><size:8><b><<include>></b></size></color>
 
-UC3 -[#0066CC,thickness=3,dashed]-> UC5 : <color:#0066CC><size:10><b><<include>></b></size></color>
-UC3 -[#0066CC,thickness=3,dashed]-> UC9 : <color:#0066CC><size:10><b><<include>></b></size></color>
+' Extend relationships - Optional features (reduced for clarity)
+UC1 -[#00AA00,thickness=2,dotted]-> UC6 : <color:#00AA00><size:8><b><<extend>></b></size></color>
+UC2 -[#00AA00,thickness=2,dotted]-> UC7 : <color:#00AA00><size:8><b><<extend>></b></size></color>
 
-UC4 -[#0066CC,thickness=3,dashed]-> UC5 : <color:#0066CC><size:10><b><<include>></b></size></color>
-UC4 -[#0066CC,thickness=3,dashed]-> UC9 : <color:#0066CC><size:10><b><<include>></b></size></color>
+' Compact notes for portrait layout
+note bottom of UC1 : <color:#FFB347><b>🧩 Pattern</b></color>\nSequences & patterns
 
-' Extend relationships - Optional Features
-UC1 -[#00AA00,thickness=3,dotted]-> UC6 : <color:#00AA00><size:10><b><<extend>></b></size></color>
-UC1 -[#00AA00,thickness=3,dotted]-> UC7 : <color:#00AA00><size:10><b><<extend>></b></size></color>
-UC2 -[#00AA00,thickness=3,dotted]-> UC6 : <color:#00AA00><size:10><b><<extend>></b></size></color>
-UC3 -[#00AA00,thickness=3,dotted]-> UC7 : <color:#00AA00><size:10><b><<extend>></b></size></color>
+note bottom of UC2 : <color:#FF69B4><b>👥 Social</b></color>\nEmotional intelligence  
 
-' Notes for additional context
-note right of UC1 : <color:#FFB347><b>🧩 Pattern Training</b></color>\nHidden patterns, sequences\nVisual intuition development\nSubconscious recognition
+note bottom of UC3 : <color:#32CD32><b>⚡ Decision</b></color>\nGut checks & assessment
 
-note right of UC2 : <color:#FF69B4><b>👥 Social Training</b></color>\nRead the room, facial expressions\nEmotional intelligence\nDeception detection skills
+note bottom of UC4 : <color:#9370DB><b>🎨 Creative</b></color>\nLateral thinking
 
-note right of UC3 : <color:#32CD32><b>⚡ Decision Training</b></color>\nGut checks, risk assessment\nRed flag detection\nRapid decision making
-
-note right of UC4 : <color:#9370DB><b>🎨 Creative Training</b></color>\nCreative connections\nAbstract & lateral thinking\nInnovative problem solving
-
-note right of UC5 : <color:#4169E1><b>🛠️ Training Support</b></color>\nAdaptive difficulty\nHints and guidance\nProgress tracking
-
-' Interactive elements note
-note top of system : <color:#2E86C1><b>🎮 Interactive Training</b></color>\nReal-time feedback and adaptive difficulty based on performance
-
-' Legend with training focus
-legend bottom
-  <color:#FFE4B5>■</color> Pattern Recognition Training
-  <color:#F8CECC>■</color> Social Intuition Training
-  <color:#90EE90>■</color> Decision Making Training
-  <color:#DDA0DD>■</color> Creative Intuition Training
-  <color:#E6F3FF>■</color> Training Support Functions
-  <color:#0066CC><b>- - -</b></color> Include Relationship (Core Functions)
-  <color:#00AA00><b>∙ ∙ ∙</b></color> Extend Relationship (Optional Features)
+' Compact legend for portrait
+legend right
+  <color:#FFE4B5>■</color> Pattern Training
+  <color:#F8CECC>■</color> Social Training
+  <color:#90EE90>■</color> Decision Training
+  <color:#DDA0DD>■</color> Creative Training
+  <color:#E6F3FF>■</color> Support Functions
+  <color:#0066CC><b>- - -</b></color> Include
+  <color:#00AA00><b>∙ ∙ ∙</b></color> Extend
 endlegend
 
 ' Footer
