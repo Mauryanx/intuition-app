@@ -4,6 +4,8 @@ import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { ThemeProvider } from '@/theme';
+
 type AppProvidersProps = {
   children: ReactNode;
 };
@@ -24,7 +26,9 @@ export function AppProviders({ children }: AppProvidersProps) {
   return (
     <GestureHandlerRootView style={styles.gestureRoot}>
       <SafeAreaProvider>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        <ThemeProvider>
+          <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        </ThemeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
