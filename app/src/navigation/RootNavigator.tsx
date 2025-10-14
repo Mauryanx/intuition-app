@@ -10,6 +10,7 @@ import { enableScreens } from 'react-native-screens';
 enableScreens(true);
 
 import { PlaceholderScreen } from '@/features/placeholders/PlaceholderScreen';
+import { OnboardingFlow } from '@/features/onboarding/OnboardingFlow';
 import { useTheme } from '@/theme';
 import { trackEvent } from '@/services/analytics';
 
@@ -69,7 +70,7 @@ export function RootNavigator() {
           component={AuthPlaceholder}
           options={{ animationTypeForReplace: 'push' }}
         />
-        <Stack.Screen name="Onboarding" component={OnboardingPlaceholder} />
+        <Stack.Screen name="Onboarding" component={OnboardingFlow} />
         <Stack.Screen name="Main" component={MainPlaceholder} />
         <Stack.Screen name="Paywall" component={PaywallPlaceholder} />
       </Stack.Navigator>
@@ -79,18 +80,6 @@ export function RootNavigator() {
 
 function AuthPlaceholder() {
   return <PlaceholderScreen titleKey="auth.welcome" />;
-}
-
-function OnboardingPlaceholder() {
-  return (
-    <PlaceholderScreen
-      titleKey="onboarding.headline"
-      bodyKey="onboarding.subheadline"
-      showProgress
-      step={1}
-      totalSteps={4}
-    />
-  );
 }
 
 function MainPlaceholder() {
