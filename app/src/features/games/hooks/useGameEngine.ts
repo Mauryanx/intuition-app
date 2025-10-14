@@ -1,12 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { nanoid } from 'nanoid/non-secure';
 
-import type {
-  GameEngineActions,
-  GameEngineContext,
-  GameEngineState,
-  GameSessionState,
-} from '../types';
+import type { GameEngineActions, GameEngineContext, GameEngineState } from '../types';
 import { calculateScore } from '../utils';
 
 const INITIAL_STATE: GameEngineState = {
@@ -28,7 +23,6 @@ export function useGameEngine({
   rounds,
   targetDurationMs,
   onComplete,
-  onAbort: _onAbort = () => undefined,
 }: GameEngineContext): [GameEngineState, GameEngineActions] {
   const [state, setState] = useState<GameEngineState>({
     ...INITIAL_STATE,
@@ -39,18 +33,20 @@ export function useGameEngine({
   const correctCountRef = useRef(0);
   const sessionIdRef = useRef(externalSessionId ?? nanoid());
 
-  const totalRounds = rounds.length;
-
-  const transitionStatus = useCallback((status: GameSessionState) => {
-    setState((prev) => ({ ...prev, status }));
-  }, []);
+  const attemptsRef = useRef(0);
 
   const start = useCallback(() => {
     comboRef.current = 0;
     correctCountRef.current = 0;
+    attemptsRef.current = 0;
     responseStartRef.current = Date.now();
-    transitionStatus('active');
-  }, [transitionStatus]);
+    sessionIdRef.current = externalSessionId ?? nanoid();
+    setState({
+      ...INITIAL_STATE,
+      status: 'active',
+      rounds,
+    });
+  }, [externalSessionId, rounds]);
 
   const selectOption = useCallback(
     (index: number) => {
@@ -74,6 +70,7 @@ export function useGameEngine({
         });
 
         comboRef.current = combo;
+        attemptsRef.current += 1;
         if (isCorrect) {
           correctCountRef.current += 1;
         }
@@ -82,12 +79,13 @@ export function useGameEngine({
           ...prev,
           score: Math.max(0, prev.score + delta),
           streak: isCorrect ? prev.streak + 1 : 0,
-          accuracy: (correctCountRef.current ?? 0) / totalRounds,
+          accuracy:
+            attemptsRef.current > 0 ? correctCountRef.current / attemptsRef.current : 0,
           selectedIndex: index,
         };
       });
     },
-    [difficulty, targetDurationMs, totalRounds],
+    [difficulty, targetDurationMs],
   );
 
   const nextRound = useCallback(() => {
@@ -118,14 +116,13 @@ export function useGameEngine({
         difficulty,
         score: prev.score,
         accuracy: prev.accuracy,
-        totalRounds,
+        totalRounds: prev.rounds.length,
         streak: prev.streak,
         metadata: {
           mode: gameMeta.mode,
         },
       };
 
-      transitionStatus('summary');
       onComplete(payload);
 
       return {
@@ -133,7 +130,18 @@ export function useGameEngine({
         status: 'summary',
       };
     });
-  }, [difficulty, gameMeta.id, gameMeta.mode, onComplete, totalRounds, transitionStatus]);
+  }, [difficulty, gameMeta.id, gameMeta.mode, onComplete]);
+
+  const reset = useCallback(() => {
+    comboRef.current = 0;
+    correctCountRef.current = 0;
+    attemptsRef.current = 0;
+    responseStartRef.current = null;
+    setState({
+      ...INITIAL_STATE,
+      rounds,
+    });
+  }, [rounds]);
 
   const actions = useMemo<GameEngineActions>(
     () => ({
@@ -141,8 +149,9 @@ export function useGameEngine({
       selectOption,
       nextRound,
       end,
+      reset,
     }),
-    [end, nextRound, selectOption, start],
+    [end, nextRound, reset, selectOption, start],
   );
 
   return [state, actions];

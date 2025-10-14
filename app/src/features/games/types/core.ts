@@ -58,7 +58,6 @@ export type GameEngineContext = {
   rounds: GameRoundConfig[];
   targetDurationMs: number;
   onComplete: (payload: GameRunPayload) => void;
-  onAbort?: () => void;
 };
 
 export type GameEngineActions = {
@@ -66,6 +65,7 @@ export type GameEngineActions = {
   selectOption: (index: number) => void;
   nextRound: () => void;
   end: () => void;
+  reset: () => void;
 };
 
 export type GameEngineState = {
