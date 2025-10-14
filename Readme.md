@@ -1,55 +1,51 @@
 # Intuition App
 
-A powerful and intuitive application built to enhance user experience and productivity.
+Expo React Native app delivering intuition training mini-games backed by Firebase, Superwall, and analytics scaffolding.
 
-## Development Setup
+## Repository Layout
+- `app/` – Expo project (TypeScript) containing source, config, and assets.
+- `implementation.md` – milestone-level implementation plan.
+- `PRD.md`, `User Stories.md` – product specification references.
 
-This project uses Git and GitHub for version control, allowing you to:
-- Create branches for new features
-- Make pull requests for code reviews
-- Collaborate with others
-- Track changes and revert when needed
+## Prerequisites
+- **Node.js 20.19+** (Expo SDK 54 + React Native 0.81 require Node 20; use `nvm install 20 && nvm use 20`).
+- npm 10+ (bundled with Node 20) or pnpm/yarn if preferred.
+- Git, Watchman (macOS) and Xcode command line tools for iOS simulator builds.
 
-## Getting Started
-
-### Prerequisites
-- Node.js (if applicable)
-- Git
-
-### Installation
+## Initial Setup
 ```bash
-# Clone the repository
-git clone https://github.com/Mauryanx/intuition-app.git
-cd intuition-app
-
 # Install dependencies
+cd app
 npm install
+
+# Optional: enable git hooks (run once per clone)
+git config core.hooksPath .husky
 ```
 
-### Development Workflow
+Create a `.env` inside `app/` using `.env.example` as a template. Populate Firebase web config values and the Superwall API key provided by product.
 
-1. **Create a feature branch:**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+## Useful Scripts (run from `app/`)
+- `npm start` – launch Expo bundler.
+- `npm run ios` / `npm run android` / `npm run web` – platform-specific entry.
+- `npm run lint` – ESLint over `src/`.
+- `npm run typecheck` – TypeScript no-emit check.
+- `npm run format` – Prettier formatting.
+- `npm run lint-staged` – invoked by pre-commit hook.
 
-2. **Make your changes and commit:**
-   ```bash
-   git add .
-   git commit -m "Add your descriptive commit message"
-   ```
+## Branch Workflow
+1. Create a task branch (e.g., `git checkout -b task-project-setup`).
+2. Make focused commits; keep Jira IDs in commit messages (ask product owner for wording).
+3. Run lint + typecheck before committing.
+4. Push branch and open PR when ready.
 
-3. **Push your branch:**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
+## Environment Keys
+| Key | Purpose |
+| --- | --- |
+| `FIREBASE_API_KEY` et al. | Firebase Web SDK configuration. |
+| `SUPERWALL_API_KEY` | Superwall public API key for paywall campaigns. |
+| `APP_ENV` | `development` \| `staging` \| `production` (controls runtime toggles later). |
 
-4. **Create a Pull Request on GitHub** to merge your changes
-
-## Contributing
-
-Please read our contributing guidelines before making contributions.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Notes
+- Current Firebase & Superwall integrations are stubbed; real keys enable runtime initialization.
+- Husky runs `lint-staged` from `.husky/pre-commit`. Ensure hooks path is configured locally after cloning.
+- Upgrade path: when Expo SDK updates require new Node versions, update `.nvmrc` (to be added later) and CI runners accordingly.

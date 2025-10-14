@@ -86,3 +86,19 @@
 - Placeholder Cloud Function and Firestore rules exist with clearly marked TODOs; no deployable backend code yet.
 - Documentation details assumptions, mock data limits, and transition plan for Milestone 3 backend work.
 
+---
+
+## Execution Roadmap & Branch Strategy
+
+| Order | Branch Name | Objective | Key Outputs |
+| --- | --- | --- | --- |
+| 1 | `task-project-setup` | Initialize Expo (TS) app, configure linting/testing, wire Firebase & Superwall placeholders, seed CI scripts. | Expo project skeleton, base navigation, config files, mocked SDK setup. |
+| 2 | `task-design-system-shell` | Implement theming, UI primitives, navigation shell, localization/analytics scaffolds. | Theme tokens, shared components, root navigator, utility hooks. |
+| 3 | `task-onboarding-funnel` | Build complete onboarding flow with quiz logic, persona stubs, and paywall trigger integration. | Screens, form handling, persona service, Superwall trigger wiring. |
+| 4 | `task-game-engine-foundations` | Create reusable game loop infrastructure, HUD components, timers, and event tracking. | Engine interfaces, shared HUD, tutorial/result templates, test coverage. |
+| 5 | `task-game-content` | Implement four games using engine, author mock data sets, and tutorials. | Pattern Completion, Signal-vs-Noise, Word Association, Anomaly Spotter modules. |
+| 6 | `task-difficulty-scoring` | Add staircase difficulty logic and scoring models culminating in Intuition Index calculations. | Difficulty service, scoring utilities, persistence helpers, UI surfacing. |
+| 7 | `task-data-scaffolding` | Flesh out Firebase integration stubs, Firestore models, Cloud Function placeholder, leaderboard mock. | TypeScript models, Firestore rules skeleton, function stub, mock services. |
+| 8 | `task-qa-polish` | Instrument analytics hooks, add debug dashboards, write docs and test checklists. | Debug screen, analytics helper usage, documentation updates, test reports. |
+
+> Before each branch’s commit, pause for Jira-aligned message from product owner.
