@@ -379,6 +379,3 @@ Accessibility, performance, copy polish, App Store assets, TestFlight → produc
 * **Quality Signals**: crash‑free users ≥ 99.5%, App Store rating ≥ 4.5 after 50 reviews.
 * **Learning Plan**: run 5 user interviews post‑launch to refine onboarding and game clarity; iterate monthly.
 
-## Need Professional Help in Developing Your Architecture?
-
-Please contact me at [sammuti.com](https://sammuti.com) :)
