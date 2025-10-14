@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Button, Card, Screen } from '@/components';
 import { useTheme } from '@/theme';
-
+import { useProgressStore } from '@/state';
+import { trackEvent } from '@/services/analytics';
 import { GAME_META } from '../meta';
 import {
   AnswerButton,
@@ -13,9 +14,8 @@ import {
   HUDScore,
   HUDTimer,
 } from '../components';
-import { useGameEngine, useGameTimer } from '../hooks';
-import type { GameRoundConfig } from '../types';
-import { trackEvent } from '@/services/analytics';
+import { useDifficultyManager, useGameEngine, useGameTimer } from '../hooks';
+import type { GameDifficulty, GameRoundConfig, GameRunPayload } from '../types';
 
 const GRID_ROUNDS: GameRoundConfig[] = [
   {
@@ -43,35 +43,55 @@ const TARGET_DURATION_MS = 22000;
 export function AnomalyScoutScreen() {
   const theme = useTheme();
   const rounds = useMemo(() => GRID_ROUNDS, []);
+  const perRoundTargetMs = TARGET_DURATION_MS / Math.max(1, rounds.length);
+
+  const recordRun = useProgressStore((state) => state.recordRun);
+  const { current: difficultyLevel, registerRun } = useDifficultyManager({
+    initial: 4,
+    targetResponseMs: perRoundTargetMs,
+  });
+  const [nextDifficulty, setNextDifficulty] = useState<GameDifficulty>(difficultyLevel);
+  const [lastRun, setLastRun] = useState<GameRunPayload | null>(null);
+
+  useEffect(() => {
+    setNextDifficulty(difficultyLevel);
+  }, [difficultyLevel]);
 
   const [state, actions] = useGameEngine({
     gameMeta: GAME_META['anomaly-scout'],
-    difficulty: 4,
+    difficulty: difficultyLevel,
     rounds,
     targetDurationMs: TARGET_DURATION_MS,
-    onComplete: (payload) => trackEvent({ name: 'game_complete', params: payload }),
+    onComplete: (payload) => {
+      trackEvent({ name: 'game_complete', params: payload });
+      recordRun(payload);
+      setLastRun(payload);
+      const updated = registerRun({
+        accuracy: payload.accuracy,
+        averageResponseMs: payload.averageResponseMs,
+      });
+      setNextDifficulty(updated);
+    },
   });
 
   const elapsed = useGameTimer(state.status === 'active');
   const currentRound = state.rounds[state.roundIndex];
 
-  const summaryMetrics = useMemo(
-    () => [
-      { label: 'Scout score', value: `${state.score}`, tone: 'positive' as const },
-      { label: 'Perfect sweeps', value: `${state.streak}` },
-      { label: 'Detection accuracy', value: `${Math.round(state.accuracy * 100)}%` },
-    ],
-    [state.accuracy, state.score, state.streak],
+  const summaryScore = lastRun?.score ?? state.score;
+  const summaryAccuracy = Math.round((lastRun?.accuracy ?? state.accuracy) * 100);
+  const summaryAvgResponse = Math.round(
+    lastRun?.averageResponseMs ?? state.averageResponseMs ?? perRoundTargetMs,
   );
 
-  const handleNext = () => {
-    if (state.selectedIndex === null) return;
-    if (state.roundIndex >= state.rounds.length - 1) {
-      actions.end();
-      return;
-    }
-    actions.nextRound();
-  };
+  const summaryMetrics = useMemo(
+    () => [
+      { label: 'Scout score', value: `${summaryScore}`, tone: 'positive' as const },
+      { label: 'Detection accuracy', value: `${summaryAccuracy}%` },
+      { label: 'Avg response', value: `${summaryAvgResponse} ms` },
+      { label: 'Next difficulty', value: formatDifficulty(nextDifficulty) },
+    ],
+    [nextDifficulty, summaryAccuracy, summaryAvgResponse, summaryScore],
+  );
 
   if (state.status === 'tutorial') {
     return (
@@ -108,6 +128,17 @@ export function AnomalyScoutScreen() {
     );
   }
 
+  const handleNext = () => {
+    if (state.selectedIndex === null) {
+      return;
+    }
+    if (state.roundIndex >= state.rounds.length - 1) {
+      actions.end();
+      return;
+    }
+    actions.nextRound();
+  };
+
   if (state.status === 'summary') {
     return (
       <Screen>
@@ -116,7 +147,9 @@ export function AnomalyScoutScreen() {
             title="Sweep secured"
             subtitle="Anomalies won’t hide from you. Keep the sweeps daily to unlock elite scout tiers."
             metrics={summaryMetrics}
-            onContinue={() => actions.reset()}
+            onContinue={() => {
+              actions.reset();
+            }}
             onRetry={() => {
               actions.reset();
               actions.start();
@@ -161,6 +194,10 @@ export function AnomalyScoutScreen() {
       </View>
     </Screen>
   );
+}
+
+function formatDifficulty(level: GameDifficulty) {
+  return `Level ${level}`;
 }
 
 const styles = StyleSheet.create({

@@ -21,15 +21,6 @@ export type GameId =
 
 export type GameSessionState = 'tutorial' | 'active' | 'summary';
 
-export type GameStepSummary = {
-  score: number;
-  accuracy: number;
-  streak: number;
-  difficulty: GameDifficulty;
-  speed?: number;
-  elapsedMs: number;
-};
-
 export type GameRunPayload = {
   id: string;
   gameId: GameId;
@@ -38,6 +29,7 @@ export type GameRunPayload = {
   difficulty: GameDifficulty;
   score: number;
   accuracy: number;
+  averageResponseMs: number;
   totalRounds: number;
   streak: number;
   metadata?: Record<string, unknown>;
@@ -74,6 +66,7 @@ export type GameEngineState = {
   score: number;
   streak: number;
   accuracy: number;
+  averageResponseMs: number;
   elapsedMs: number;
   timerMs: number;
   rounds: GameRoundConfig[];
