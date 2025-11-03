@@ -320,7 +320,7 @@ function HeroStep({ onContinue }: HeroStepProps) {
           <Button 
             label={t('onboarding.heroCta')} 
             onPress={onContinue}
-            style={styles.heroButton}
+            // Remove style prop as it's not supported by Button component
           />
         </View>
       </View>
