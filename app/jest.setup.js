@@ -1,11 +1,23 @@
-// Mock the React Native modules that might cause issues in tests
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
-
 // Mock react-native-reanimated
 jest.mock('react-native-reanimated', () => {
-  const Reanimated = require('react-native-reanimated/mock');
-  Reanimated.default.call = () => {};
-  return Reanimated;
+  return {
+    useSharedValue: jest.fn,
+    useAnimatedStyle: jest.fn,
+    withTiming: jest.fn,
+    withSpring: jest.fn,
+    withDelay: jest.fn,
+    withSequence: jest.fn,
+    withRepeat: jest.fn,
+    runOnJS: jest.fn(cb => cb),
+    View: 'View',
+    Text: 'Text',
+    Image: 'Image',
+    ScrollView: 'ScrollView',
+    createAnimatedComponent: jest.fn(component => component),
+    default: {
+      call: jest.fn(),
+    },
+  };
 });
 
 // Mock expo modules
@@ -35,7 +47,12 @@ jest.mock('@react-navigation/native', () => {
 });
 
 // Silence the warning: Animated: `useNativeDriver` is not supported
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+// Using a safer mock approach
+jest.mock('react-native', () => {
+  const reactNative = jest.requireActual('react-native');
+  reactNative.NativeModules.StatusBarManager = { getHeight: jest.fn() };
+  return reactNative;
+});
 
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () => ({
