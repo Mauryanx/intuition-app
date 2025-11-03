@@ -1,4 +1,6 @@
 import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getRemoteConfig, fetchAndActivate } from 'firebase/remote-config';
 import Constants from 'expo-constants';
 
 export type FirebaseConfig = {
@@ -42,5 +44,32 @@ export function ensureFirebaseApp(): FirebaseApp | null {
   }
 
   firebaseApp = initializeApp(config);
+  initialiseRemoteConfig(firebaseApp);
   return firebaseApp;
+}
+
+function initialiseRemoteConfig(app: FirebaseApp) {
+  try {
+    const remoteConfig = getRemoteConfig(app);
+    remoteConfig.settings = {
+      minimumFetchIntervalMillis: 60_000,
+      fetchTimeoutMillis: 30_000,
+    };
+    remoteConfig.defaultConfig = {
+      paywall_placement: 'end_of_funnel',
+    };
+    fetchAndActivate(remoteConfig).catch((error) =>
+      console.warn('[RemoteConfig] fetch failed', error),
+    );
+  } catch (error) {
+    console.warn('[RemoteConfig] unavailable', error);
+  }
+}
+
+export function ensureAuth() {
+  const app = ensureFirebaseApp();
+  if (!app) {
+    throw new Error('Firebase app not initialised');
+  }
+  return getAuth(app);
 }
