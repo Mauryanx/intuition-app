@@ -1,0 +1,14 @@
+.DS_Store
+node_modules
+app/.expo
+app/.expo-shared
+app/.env
+app/.env.*
+app/build
+app/dist
+app/coverage
+app/ios
+app/android
+.npm
+firebase/functions/lib
+firebase/functions/node_modules
