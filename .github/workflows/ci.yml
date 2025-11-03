@@ -24,7 +24,7 @@ jobs:
       
       - name: Install dependencies
         working-directory: ./app
-        run: npm ci --legacy-peer-deps
+        run: npm install --legacy-peer-deps
       
       - name: Run TypeScript type check
         working-directory: ./app
@@ -56,14 +56,15 @@ jobs:
       
       - name: Install dependencies
         working-directory: ./app
-        run: npm ci --legacy-peer-deps
+        run: npm install --legacy-peer-deps
       
       - name: Setup Expo
         uses: expo/expo-github-action@v8
         with:
           expo-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
+          # Token is optional for basic builds
+          # token: ${{ secrets.EXPO_TOKEN }}
       
       - name: Build web version
         working-directory: ./app
-        run: npx expo export:web
+        run: npx expo export:web --no-bundler
