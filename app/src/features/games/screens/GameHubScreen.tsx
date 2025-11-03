@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Card, Screen } from '@/components';
 import { useTheme } from '@/theme';
+import { useProgressStore } from '@/state';
 
 import { GAME_META } from '../meta';
 import type { GameId } from '../types';
@@ -20,6 +21,7 @@ const GAME_ORDER: GameId[] = [
 export function GameHubScreen() {
   const theme = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+  const intuitionIndex = useProgressStore((state) => state.intuitionIndex);
 
   const games = useMemo(() => GAME_ORDER.map((id) => GAME_META[id]), []);
 
@@ -30,6 +32,7 @@ export function GameHubScreen() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={[styles.list, { padding: theme.spacing.lg }]}
         ItemSeparatorComponent={GameListSeparator}
+        ListHeaderComponent={<GameHubHeader intuitionIndex={intuitionIndex} />}
         renderItem={({ item }) => (
           <Pressable onPress={() => navigation.navigate(mapRoute(item.id))}>
             <Card
@@ -112,6 +115,28 @@ function GameListSeparator() {
   return <View style={{ height: theme.spacing.lg }} />;
 }
 
+function GameHubHeader({ intuitionIndex }: { intuitionIndex: number }) {
+  const theme = useTheme();
+  return (
+    <View
+      style={[
+        styles.heroCard,
+        { borderColor: hexWithOpacity(theme.colors.border.subtle, 0.4) },
+      ]}
+    >
+      <Text style={[styles.heroTitle, { color: theme.colors.text.primary }]}>
+        Intuition Index
+      </Text>
+      <Text style={[styles.indexValue, { color: theme.colors.accent.primary }]}>
+        {intuitionIndex}
+      </Text>
+      <Text style={[styles.heroCaption, { color: theme.colors.text.secondary }]}>
+        Composite from your latest runs across each intuition circuit.
+      </Text>
+    </View>
+  );
+}
+
 function mapRoute(id: GameId): keyof MainStackParamList {
   switch (id) {
     case 'pattern-completion':
@@ -172,5 +197,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 0.6,
     textTransform: 'uppercase',
+  },
+  heroCard: {
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 24,
+    gap: 8,
+  },
+  heroTitle: {
+    fontSize: 16,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+  },
+  indexValue: {
+    fontSize: 42,
+    fontWeight: '700',
+  },
+  heroCaption: {
+    fontSize: 14,
+    lineHeight: 20,
   },
 });

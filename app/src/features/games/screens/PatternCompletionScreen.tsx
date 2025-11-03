@@ -1,21 +1,21 @@
-import { useMemo } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import { Button, Screen } from '@/components';
 import { useTheme } from '@/theme';
-
+import { useProgressStore } from '@/state';
+import { trackEvent } from '@/services/analytics';
 import { GAME_META } from '../meta';
 import {
-  GameGradient,
   AnswerButton,
-  HUDScore,
-  HUDTimer,
+  GameGradient,
   GameHeader,
   GameSummaryCard,
+  HUDScore,
+  HUDTimer,
 } from '../components';
-import { useGameEngine, useGameTimer } from '../hooks';
-import type { GameRoundConfig } from '../types';
-import { trackEvent } from '@/services/analytics';
+import { useDifficultyManager, useGameEngine, useGameTimer } from '../hooks';
+import type { GameDifficulty, GameRoundConfig, GameRunPayload } from '../types';
 
 const VISUAL_DATA: GameRoundConfig[] = [
   {
@@ -43,36 +43,57 @@ const TARGET_DURATION_MS = 18000;
 export function PatternCompletionScreen() {
   const theme = useTheme();
   const rounds = useMemo(() => VISUAL_DATA, []);
+  const perRoundTargetMs = TARGET_DURATION_MS / Math.max(1, rounds.length);
+
+  const recordRun = useProgressStore((state) => state.recordRun);
+
+  const { current: difficultyLevel, registerRun } = useDifficultyManager({
+    initial: 3,
+    targetResponseMs: perRoundTargetMs,
+  });
+
+  const [nextDifficulty, setNextDifficulty] = useState<GameDifficulty>(difficultyLevel);
+  const [lastRun, setLastRun] = useState<GameRunPayload | null>(null);
+
+  useEffect(() => {
+    setNextDifficulty(difficultyLevel);
+  }, [difficultyLevel]);
 
   const [state, actions] = useGameEngine({
     sessionId: undefined,
     gameMeta: GAME_META['pattern-completion'],
-    difficulty: 3,
+    difficulty: difficultyLevel,
     rounds,
     targetDurationMs: TARGET_DURATION_MS,
-    onComplete: (payload) => trackEvent({ name: 'game_complete', params: payload }),
+    onComplete: (payload) => {
+      trackEvent({ name: 'game_complete', params: payload });
+      recordRun(payload);
+      setLastRun(payload);
+      const updated = registerRun({
+        accuracy: payload.accuracy,
+        averageResponseMs: payload.averageResponseMs,
+      });
+      setNextDifficulty(updated);
+    },
   });
 
   const elapsed = useGameTimer(state.status === 'active');
   const currentRound = state.rounds[state.roundIndex];
 
+  const summaryScore = lastRun?.score ?? state.score;
+  const summaryAccuracy = Math.round((lastRun?.accuracy ?? state.accuracy) * 100);
+  const summaryAvgResponse = Math.round(
+    lastRun?.averageResponseMs ?? state.averageResponseMs ?? perRoundTargetMs,
+  );
+
   const summaryMetrics = useMemo(
     () => [
-      {
-        label: 'Score',
-        value: `${state.score}`,
-        tone: 'positive' as const,
-      },
-      {
-        label: 'Best streak',
-        value: `${state.streak}`,
-      },
-      {
-        label: 'Accuracy',
-        value: `${Math.round(state.accuracy * 100)}%`,
-      },
+      { label: 'Score', value: `${summaryScore}`, tone: 'positive' as const },
+      { label: 'Accuracy', value: `${summaryAccuracy}%` },
+      { label: 'Avg response', value: `${summaryAvgResponse} ms` },
+      { label: 'Next difficulty', value: formatDifficulty(nextDifficulty) },
     ],
-    [state.accuracy, state.score, state.streak],
+    [nextDifficulty, summaryAccuracy, summaryAvgResponse, summaryScore],
   );
 
   if (state.status === 'tutorial') {
@@ -94,10 +115,12 @@ export function PatternCompletionScreen() {
     if (state.selectedIndex === null) {
       return;
     }
+
     if (state.roundIndex >= state.rounds.length - 1) {
       actions.end();
       return;
     }
+
     actions.nextRound();
   };
 
@@ -162,6 +185,10 @@ export function PatternCompletionScreen() {
       </View>
     </Screen>
   );
+}
+
+function formatDifficulty(level: GameDifficulty) {
+  return `Level ${level}`;
 }
 
 const styles = StyleSheet.create({

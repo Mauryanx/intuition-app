@@ -10,6 +10,7 @@ const INITIAL_STATE: GameEngineState = {
   score: 0,
   streak: 0,
   accuracy: 0,
+  averageResponseMs: 0,
   elapsedMs: 0,
   timerMs: 0,
   rounds: [],
@@ -30,6 +31,8 @@ export function useGameEngine({
   });
   const comboRef = useRef(0);
   const responseStartRef = useRef<number | null>(null);
+  const responseTotalRef = useRef(0);
+  const sessionStartRef = useRef<number | null>(null);
   const correctCountRef = useRef(0);
   const sessionIdRef = useRef(externalSessionId ?? nanoid());
 
@@ -39,7 +42,9 @@ export function useGameEngine({
     comboRef.current = 0;
     correctCountRef.current = 0;
     attemptsRef.current = 0;
+    responseTotalRef.current = 0;
     responseStartRef.current = Date.now();
+    sessionStartRef.current = Date.now();
     sessionIdRef.current = externalSessionId ?? nanoid();
     setState({
       ...INITIAL_STATE,
@@ -71,6 +76,7 @@ export function useGameEngine({
 
         comboRef.current = combo;
         attemptsRef.current += 1;
+        responseTotalRef.current += responseMs;
         if (isCorrect) {
           correctCountRef.current += 1;
         }
@@ -81,6 +87,8 @@ export function useGameEngine({
           streak: isCorrect ? prev.streak + 1 : 0,
           accuracy:
             attemptsRef.current > 0 ? correctCountRef.current / attemptsRef.current : 0,
+          averageResponseMs:
+            attemptsRef.current > 0 ? responseTotalRef.current / attemptsRef.current : 0,
           selectedIndex: index,
         };
       });
@@ -108,14 +116,17 @@ export function useGameEngine({
     const now = Date.now();
 
     setState((prev) => {
+      const attempts = Math.max(1, attemptsRef.current);
+      const averageResponseMs = responseTotalRef.current / attempts;
       const payload = {
         id: sessionIdRef.current,
         gameId: gameMeta.id,
-        startedAt: now - prev.elapsedMs,
+        startedAt: sessionStartRef.current ?? now,
         completedAt: now,
         difficulty,
         score: prev.score,
         accuracy: prev.accuracy,
+        averageResponseMs,
         totalRounds: prev.rounds.length,
         streak: prev.streak,
         metadata: {
@@ -128,6 +139,7 @@ export function useGameEngine({
       return {
         ...prev,
         status: 'summary',
+        averageResponseMs,
       };
     });
   }, [difficulty, gameMeta.id, gameMeta.mode, onComplete]);
@@ -136,7 +148,9 @@ export function useGameEngine({
     comboRef.current = 0;
     correctCountRef.current = 0;
     attemptsRef.current = 0;
+    responseTotalRef.current = 0;
     responseStartRef.current = null;
+    sessionStartRef.current = null;
     setState({
       ...INITIAL_STATE,
       rounds,
