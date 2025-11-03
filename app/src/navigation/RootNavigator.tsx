@@ -11,6 +11,13 @@ enableScreens(true);
 
 import { PlaceholderScreen } from '@/features/placeholders/PlaceholderScreen';
 import { OnboardingFlow } from '@/features/onboarding/OnboardingFlow';
+import {
+  GameHubScreen,
+  PatternCompletionScreen,
+  SignalVsNoiseScreen,
+  WordSprintScreen,
+  AnomalyScoutScreen,
+} from '@/features/games/screens';
 import { useTheme } from '@/theme';
 import { trackEvent } from '@/services/analytics';
 
@@ -21,7 +28,16 @@ export type RootStackParamList = {
   Paywall: { trigger?: string } | undefined;
 };
 
+export type MainStackParamList = {
+  GameHub: undefined;
+  PatternCompletion: undefined;
+  SignalVsNoise: undefined;
+  WordSprint: undefined;
+  AnomalyScout: undefined;
+};
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const MainStack = createNativeStackNavigator<MainStackParamList>();
 
 export function RootNavigator() {
   const theme = useTheme();
@@ -71,7 +87,7 @@ export function RootNavigator() {
           options={{ animationTypeForReplace: 'push' }}
         />
         <Stack.Screen name="Onboarding" component={OnboardingFlow} />
-        <Stack.Screen name="Main" component={MainPlaceholder} />
+        <Stack.Screen name="Main" component={MainNavigator} />
         <Stack.Screen name="Paywall" component={PaywallPlaceholder} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -82,12 +98,21 @@ function AuthPlaceholder() {
   return <PlaceholderScreen titleKey="auth.welcome" />;
 }
 
-function MainPlaceholder() {
+function MainNavigator() {
   return (
-    <PlaceholderScreen
-      titleKey="common.placeholderHeadline"
-      bodyKey="common.placeholderBody"
-    />
+    <MainStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'slide_from_right',
+      }}
+      initialRouteName="GameHub"
+    >
+      <MainStack.Screen name="GameHub" component={GameHubScreen} />
+      <MainStack.Screen name="PatternCompletion" component={PatternCompletionScreen} />
+      <MainStack.Screen name="SignalVsNoise" component={SignalVsNoiseScreen} />
+      <MainStack.Screen name="WordSprint" component={WordSprintScreen} />
+      <MainStack.Screen name="AnomalyScout" component={AnomalyScoutScreen} />
+    </MainStack.Navigator>
   );
 }
 

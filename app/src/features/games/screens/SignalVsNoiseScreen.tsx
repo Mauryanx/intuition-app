@@ -1,52 +1,51 @@
 import { useMemo } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
-import { Button, Screen } from '@/components';
+import { Button, Card, Screen } from '@/components';
 import { useTheme } from '@/theme';
 
 import { GAME_META } from '../meta';
 import {
-  GameGradient,
   AnswerButton,
-  HUDScore,
-  HUDTimer,
+  GameGradient,
   GameHeader,
   GameSummaryCard,
+  HUDScore,
+  HUDTimer,
 } from '../components';
 import { useGameEngine, useGameTimer } from '../hooks';
 import type { GameRoundConfig } from '../types';
 import { trackEvent } from '@/services/analytics';
 
-const VISUAL_DATA: GameRoundConfig[] = [
+const SIGNAL_ROUNDS: GameRoundConfig[] = [
   {
-    prompt: 'Complete the prism sequence',
-    options: ['A', 'B', 'C', 'D'],
-    correctIndex: 2,
-    background: ['#151B3D', '#2442A3'],
-  },
-  {
-    prompt: 'Which shard balances the arc?',
-    options: ['X', 'Y', 'Z', 'Φ'],
+    prompt: 'Which channel holds the pure tone?',
+    options: ['Alpha', 'Nova', 'Quark', 'Flux'],
     correctIndex: 1,
-    background: ['#11152B', '#421D57'],
+    background: ['#012529', '#035E63', '#04A7A1'],
   },
   {
-    prompt: 'Find the twin pulse',
-    options: ['◎', '◖', '⊛', '◍'],
-    correctIndex: 0,
-    background: ['#061824', '#104061'],
+    prompt: 'Lock on to the spike that repeats.',
+    options: ['Pulse A', 'Pulse B', 'Pulse C', 'Pulse D'],
+    correctIndex: 3,
+    background: ['#031018', '#05253A', '#0F4A7B'],
+  },
+  {
+    prompt: 'Find the wave unfazed by static.',
+    options: ['Sierra', 'Echo', 'Calm', 'Rift'],
+    correctIndex: 2,
+    background: ['#040C12', '#0A1F2D', '#0E3249'],
   },
 ];
 
-const TARGET_DURATION_MS = 18000;
+const TARGET_DURATION_MS = 20000;
 
-export function PatternCompletionScreen() {
+export function SignalVsNoiseScreen() {
   const theme = useTheme();
-  const rounds = useMemo(() => VISUAL_DATA, []);
+  const rounds = useMemo(() => SIGNAL_ROUNDS, []);
 
   const [state, actions] = useGameEngine({
-    sessionId: undefined,
-    gameMeta: GAME_META['pattern-completion'],
+    gameMeta: GAME_META['signal-vs-noise'],
     difficulty: 3,
     rounds,
     targetDurationMs: TARGET_DURATION_MS,
@@ -58,42 +57,15 @@ export function PatternCompletionScreen() {
 
   const summaryMetrics = useMemo(
     () => [
-      {
-        label: 'Score',
-        value: `${state.score}`,
-        tone: 'positive' as const,
-      },
-      {
-        label: 'Best streak',
-        value: `${state.streak}`,
-      },
-      {
-        label: 'Accuracy',
-        value: `${Math.round(state.accuracy * 100)}%`,
-      },
+      { label: 'Signal score', value: `${state.score}`, tone: 'positive' as const },
+      { label: 'Noise dodged', value: `${state.streak}` },
+      { label: 'Lock accuracy', value: `${Math.round(state.accuracy * 100)}%` },
     ],
     [state.accuracy, state.score, state.streak],
   );
 
-  if (state.status === 'tutorial') {
-    return (
-      <Screen>
-        <View style={styles.tutorialContainer}>
-          <GameHeader meta={GAME_META['pattern-completion']} />
-          <Text style={[styles.tutorialBody, { color: theme.colors.text.secondary }]}>
-            Snap to intuition: watch the pulse morph, then tap the shard that completes
-            the loop before the beat resets.
-          </Text>
-          <Button label="Begin" onPress={actions.start} />
-        </View>
-      </Screen>
-    );
-  }
-
   const handleNext = () => {
-    if (state.selectedIndex === null) {
-      return;
-    }
+    if (state.selectedIndex === null) return;
     if (state.roundIndex >= state.rounds.length - 1) {
       actions.end();
       return;
@@ -101,13 +73,34 @@ export function PatternCompletionScreen() {
     actions.nextRound();
   };
 
+  if (state.status === 'tutorial') {
+    return (
+      <Screen>
+        <View style={styles.tutorialContainer}>
+          <GameHeader meta={GAME_META['signal-vs-noise']} />
+          <Text style={[styles.tutorialBody, { color: theme.colors.text.secondary }]}>
+            Drag your focus through the static. Only one waveform hums consistently—tap
+            the channel before the interference swells.
+          </Text>
+          <Card padding="md" style={styles.visualCard}>
+            <Image
+              source={require('@/assets/backgrounds/spectrum.png')}
+              style={styles.visual}
+            />
+          </Card>
+          <Button label="Tune in" onPress={actions.start} />
+        </View>
+      </Screen>
+    );
+  }
+
   if (state.status === 'summary') {
     return (
       <Screen>
         <View style={styles.summaryContainer}>
           <GameSummaryCard
-            title="Prism flow complete"
-            subtitle="You’re interpreting pattern pulses with sharper instincts. Keep momentum for bonus multipliers."
+            title="Signal locked"
+            subtitle="Your detector sliced through the noise floor. Tomorrow’s boost sharpens the gain even more."
             metrics={summaryMetrics}
             onContinue={() => {
               actions.reset();
@@ -128,18 +121,12 @@ export function PatternCompletionScreen() {
         <HUDScore score={state.score} streak={state.streak} accuracy={state.accuracy} />
         <HUDTimer elapsed={elapsed} />
         <GameGradient
-          colors={currentRound.background ?? (['#101010', '#191919'] as [string, string])}
+          colors={currentRound.background ?? (['#02141B', '#063844'] as [string, string])}
           style={styles.gradient}
         >
-          <View style={styles.promptBlock}>
-            <Text style={[styles.prompt, { color: theme.colors.text.primary }]}>
-              {currentRound.prompt}
-            </Text>
-            <Image
-              source={require('@/assets/overlays/halo.png')}
-              style={styles.promptImage}
-            />
-          </View>
+          <Text style={[styles.prompt, { color: theme.colors.text.primary }]}>
+            {currentRound.prompt}
+          </Text>
           <View style={styles.answers}>
             {currentRound.options.map((option, index) => (
               <AnswerButton
@@ -153,7 +140,9 @@ export function PatternCompletionScreen() {
           </View>
           <View style={styles.controls}>
             <Button
-              label={state.roundIndex >= state.rounds.length - 1 ? 'Finish' : 'Next'}
+              label={
+                state.roundIndex >= state.rounds.length - 1 ? 'Finish' : 'Next pulse'
+              }
               onPress={handleNext}
             />
             <Button label="End" variant="ghost" onPress={actions.end} />
@@ -166,26 +155,17 @@ export function PatternCompletionScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    gap: 16,
     flex: 1,
+    gap: 16,
   },
   gradient: {
     flex: 1,
     gap: 24,
     justifyContent: 'space-between',
   },
-  promptBlock: {
-    alignItems: 'center',
-    gap: 16,
-  },
   prompt: {
     fontSize: 20,
     textAlign: 'center',
-  },
-  promptImage: {
-    width: 220,
-    height: 220,
-    opacity: 0.9,
   },
   answers: {
     gap: 12,
@@ -202,8 +182,16 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   tutorialBody: {
-    fontSize: 18,
+    fontSize: 17,
     lineHeight: 24,
+  },
+  visualCard: {
+    alignItems: 'center',
+  },
+  visual: {
+    width: '100%',
+    height: 160,
+    borderRadius: 16,
   },
   summaryContainer: {
     flex: 1,
