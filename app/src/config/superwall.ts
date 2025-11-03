@@ -1,21 +1,21 @@
-import Superwall from '@superwall/react-native-superwall';
 import Constants from 'expo-constants';
-
-type SuperwallConfig = {
-  apiKey: string;
-};
 
 let isConfigured = false;
 
-const getSuperwallConfig = (): SuperwallConfig | null => {
-  const extra = Constants.expoConfig?.extra ?? Constants.manifest?.extra;
-  const apiKey = extra?.superwallApiKey as string | undefined;
-
-  if (!apiKey) {
-    return null;
+// Mock Superwall implementation
+export const SuperwallMock = {
+  register: async ({ feature }: { feature: () => void }) => {
+    // Just execute the feature function directly without showing a paywall
+    feature();
+    return true;
+  },
+  shared: {
+    register: async ({ feature }: { feature: () => void }) => {
+      // Just execute the feature function directly without showing a paywall
+      feature();
+      return true;
+    }
   }
-
-  return { apiKey };
 };
 
 export async function ensureSuperwallConfigured(): Promise<void> {
@@ -23,16 +23,7 @@ export async function ensureSuperwallConfigured(): Promise<void> {
     return;
   }
 
-  const config = getSuperwallConfig();
-  if (!config) {
-    console.warn('[Superwall] Missing API key; initialization skipped.');
-    return;
-  }
-
-  try {
-    await Superwall.configure({ apiKey: config.apiKey });
-    isConfigured = true;
-  } catch (error) {
-    console.error('[Superwall] Failed to configure SDK', error);
-  }
+  console.log('[SuperwallMock] Using mock implementation');
+  isConfigured = true;
+  return;
 }

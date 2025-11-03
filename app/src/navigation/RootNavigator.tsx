@@ -80,6 +80,7 @@ export function RootNavigator() {
           headerShown: false,
           animation: 'fade',
         }}
+        initialRouteName="Onboarding"
       >
         <Stack.Screen
           name="Auth"

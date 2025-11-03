@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as Haptics from 'expo-haptics';
-import Superwall from '@superwall/react-native-superwall';
+// Removed Superwall import
 
 import { Button, Card, ProgressDots, Screen } from '@/components';
+import { IntroScreen, introScreens } from './IntroScreens';
 import { useTheme } from '@/theme';
 import { t } from '@/localization';
 import { trackEvent } from '@/services/analytics';
@@ -21,6 +22,9 @@ import type { RootStackParamList } from '@/navigation/RootNavigator';
 
 const ONBOARDING_STEPS = [
   { id: 'welcome' },
+  { id: 'intro1' },
+  { id: 'intro2' },
+  { id: 'intro3' },
   { id: 'science' },
   { id: 'reflection' },
   { id: 'quiz' },
@@ -76,6 +80,26 @@ export function OnboardingFlow({ navigation }: Props) {
     trackEvent({ name: 'onboarding_continue', params: { step: 'welcome' } });
     goToNextStep();
   }, [goToNextStep]);
+  
+  const handleIntro1Continue = useCallback(() => {
+    trackEvent({ name: 'onboarding_continue', params: { step: 'intro1' } });
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handleIntro2Continue = useCallback(() => {
+    trackEvent({ name: 'onboarding_continue', params: { step: 'intro2' } });
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handleIntro3Continue = useCallback(() => {
+    trackEvent({ name: 'onboarding_continue', params: { step: 'intro3' } });
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handleSkipIntro = useCallback(() => {
+    trackEvent({ name: 'onboarding_skip', params: { step: 'intro' } });
+    setStepIndex(ONBOARDING_STEPS.findIndex(step => step.id === 'science'));
+  }, []);
 
   const handleScienceContinue = useCallback(() => {
     trackEvent({ name: 'onboarding_continue', params: { step: 'science' } });
@@ -141,24 +165,10 @@ export function OnboardingFlow({ navigation }: Props) {
     navigation.replace('Main');
   }, [navigation]);
 
-  const handleTriggerPaywall = useCallback(async () => {
+  const handleTriggerPaywall = useCallback(() => {
     trackEvent({ name: 'paywall_trigger', params: { placement: 'end_of_funnel' } });
-    setIsPaywallLoading(true);
-    try {
-      await Superwall.shared.register({
-        placement: 'end_of_funnel',
-        feature: handleComplete,
-      });
-    } catch (error) {
-      console.warn('[paywall] Superwall register failed', error);
-      Alert.alert(
-        t('onboarding.paywallFallbackTitle'),
-        t('onboarding.paywallFallbackMessage'),
-      );
-      handleComplete();
-    } finally {
-      setIsPaywallLoading(false);
-    }
+    // Simply proceed to the main app, skipping the paywall
+    handleComplete();
   }, [handleComplete]);
 
   const handleSkipPaywall = useCallback(() => {
@@ -168,60 +178,80 @@ export function OnboardingFlow({ navigation }: Props) {
 
   return (
     <Screen>
-      <ScrollView
-        contentContainerStyle={[styles.scrollContent, { padding: theme.spacing.lg }]}
-        style={{ backgroundColor: theme.colors.background.primary }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.progressWrapper}>
-          <ProgressDots total={totalSteps} activeIndex={stepIndex} />
-        </View>
-        {activeStep === 'welcome' ? <HeroStep onContinue={handleHeroContinue} /> : null}
-        {activeStep === 'science' ? (
-          <ScienceStep onContinue={handleScienceContinue} />
-        ) : null}
-        {activeStep === 'reflection' ? (
-          <ReflectionStep
-            activeId={reflectionId}
-            onSelect={handleReflectionSelect}
-            onBack={goToPreviousStep}
-            onContinue={handleReflectionContinue}
-          />
-        ) : null}
-        {activeStep === 'quiz' && quizQuestion ? (
-          <QuizStep
-            questionIndex={quizIndex}
-            questionCount={quizQuestions.length}
-            question={quizQuestion}
-            selectedPersona={quizSelections[quizQuestion.id]}
-            onSelect={handleQuizChoice}
-            onBack={() => {
-              if (quizIndex === 0) {
-                goToPreviousStep();
-                return;
-              }
-              setQuizIndex((prev) => Math.max(prev - 1, 0));
-            }}
-            onContinue={handleQuizContinue}
-          />
-        ) : null}
-        {activeStep === 'plan' ? (
-          <PlanStep
-            persona={persona}
-            onBack={goToPreviousStep}
-            onContinue={handlePlanContinue}
-          />
-        ) : null}
-        {activeStep === 'paywall' ? (
-          <PaywallStep
-            persona={persona}
-            isLoading={isPaywallLoading}
-            onTrigger={handleTriggerPaywall}
-            onSkip={handleSkipPaywall}
-            onBack={goToPreviousStep}
-          />
-        ) : null}
-      </ScrollView>
+      {activeStep === 'welcome' ? (
+        <HeroStep onContinue={handleHeroContinue} />
+      ) : activeStep === 'intro1' ? (
+        <IntroScreen 
+          {...introScreens[0]}
+          onContinue={handleIntro1Continue}
+          onSkip={handleSkipIntro}
+        />
+      ) : activeStep === 'intro2' ? (
+        <IntroScreen 
+          {...introScreens[1]}
+          onContinue={handleIntro2Continue}
+          onSkip={handleSkipIntro}
+        />
+      ) : activeStep === 'intro3' ? (
+        <IntroScreen 
+          {...introScreens[2]}
+          onContinue={handleIntro3Continue}
+        />
+      ) : (
+        <ScrollView
+          contentContainerStyle={[styles.scrollContent, { padding: theme.spacing.lg }]}
+          style={{ backgroundColor: theme.colors.background.primary }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.progressWrapper}>
+            <ProgressDots total={totalSteps} activeIndex={stepIndex} />
+          </View>
+          {activeStep === 'science' ? (
+            <ScienceStep onContinue={handleScienceContinue} />
+          ) : null}
+          {activeStep === 'reflection' ? (
+            <ReflectionStep
+              activeId={reflectionId}
+              onSelect={handleReflectionSelect}
+              onBack={goToPreviousStep}
+              onContinue={handleReflectionContinue}
+            />
+          ) : null}
+          {activeStep === 'quiz' && quizQuestion ? (
+            <QuizStep
+              questionIndex={quizIndex}
+              questionCount={quizQuestions.length}
+              question={quizQuestion}
+              selectedPersona={quizSelections[quizQuestion.id]}
+              onSelect={handleQuizChoice}
+              onBack={() => {
+                if (quizIndex === 0) {
+                  goToPreviousStep();
+                  return;
+                }
+                setQuizIndex((prev) => Math.max(prev - 1, 0));
+              }}
+              onContinue={handleQuizContinue}
+            />
+          ) : null}
+          {activeStep === 'plan' ? (
+            <PlanStep
+              persona={persona}
+              onBack={goToPreviousStep}
+              onContinue={handlePlanContinue}
+            />
+          ) : null}
+          {activeStep === 'paywall' ? (
+            <PaywallStep
+              persona={persona}
+              isLoading={isPaywallLoading}
+              onTrigger={handleTriggerPaywall}
+              onSkip={handleSkipPaywall}
+              onBack={goToPreviousStep}
+            />
+          ) : null}
+        </ScrollView>
+      )}
     </Screen>
   );
 }
@@ -233,28 +263,66 @@ type HeroStepProps = {
 function HeroStep({ onContinue }: HeroStepProps) {
   const theme = useTheme();
   return (
-    <View style={styles.stepContainer}>
-      <Text style={[styles.kicker, { color: theme.colors.accent.primary }]}>
-        Intuition Trainer
-      </Text>
-      <Text
-        style={[
-          theme.typography.display,
-          { color: theme.colors.text.primary, marginTop: theme.spacing.sm },
-        ]}
-      >
-        {t('onboarding.heroTitle')}
-      </Text>
-      <Text
-        style={[
-          styles.bodyLarge,
-          { color: theme.colors.text.secondary, marginTop: theme.spacing.md },
-        ]}
-      >
-        {t('onboarding.heroBody')}
-      </Text>
-      <View style={{ marginTop: theme.spacing.xl }}>
-        <Button label={t('onboarding.heroCta')} onPress={onContinue} />
+    <View style={styles.heroContainer}>
+      {/* Background Image */}
+      <Image 
+        source={require('@/assets/backgrounds/nebula.png')} 
+        style={styles.heroBackground} 
+        resizeMode="cover"
+      />
+      
+      {/* Overlay for better text readability */}
+      <View style={styles.heroOverlay} />
+      
+      {/* Content */}
+      <View style={styles.heroContent}>
+        <View style={styles.heroHeader}>
+          <Text style={[styles.kicker, { color: theme.colors.accent.primary }]}>
+            Welcome to
+          </Text>
+          <Text
+            style={[
+              styles.heroTitle,
+              { color: theme.colors.text.primary },
+            ]}
+          >
+            Intuition Trainer
+          </Text>
+        </View>
+        
+        <View style={styles.heroBody}>
+          <Text
+            style={[
+              styles.heroTagline,
+              { color: theme.colors.text.primary },
+            ]}
+          >
+            {t('onboarding.heroTitle')}
+          </Text>
+          <Text
+            style={[
+              styles.bodyLarge,
+              { color: theme.colors.text.secondary, marginTop: theme.spacing.md },
+            ]}
+          >
+            {t('onboarding.heroBody')}
+          </Text>
+        </View>
+        
+        {/* Visual element */}
+        <Image 
+          source={require('@/assets/overlays/halo.png')} 
+          style={styles.heroDecoration} 
+          resizeMode="contain"
+        />
+        
+        <View style={styles.heroActions}>
+          <Button 
+            label={t('onboarding.heroCta')} 
+            onPress={onContinue}
+            style={styles.heroButton}
+          />
+        </View>
       </View>
     </View>
   );
@@ -566,10 +634,66 @@ const styles = StyleSheet.create({
   stepContainer: {
     gap: 16,
   },
+  // New Hero styles
+  heroContainer: {
+    flex: 1,
+    height: '100%',
+    position: 'relative',
+    minHeight: 600,
+  },
+  heroBackground: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.8,
+  },
+  heroOverlay: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  heroContent: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'space-between',
+    zIndex: 1,
+  },
+  heroHeader: {
+    marginTop: 40,
+  },
+  heroTitle: {
+    fontSize: 42,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    marginTop: 8,
+  },
+  heroBody: {
+    marginTop: 40,
+  },
+  heroTagline: {
+    fontSize: 24,
+    fontWeight: '600',
+    letterSpacing: 0.2,
+  },
+  heroDecoration: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+    opacity: 0.8,
+    marginVertical: 20,
+  },
+  heroActions: {
+    marginTop: 'auto',
+    marginBottom: 40,
+  },
+  heroButton: {
+    paddingVertical: 16,
+  },
   kicker: {
-    fontSize: 14,
+    fontSize: 16,
     textTransform: 'uppercase',
-    letterSpacing: 1,
+    letterSpacing: 1.5,
   },
   bodyLarge: {
     fontSize: 17,
