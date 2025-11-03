@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { ColorValue } from 'react-native';
 
 import { Button } from '@/components';
 import { useTheme } from '@/theme';
@@ -14,7 +15,7 @@ type IntroScreenProps = {
   imageSource: any;
   onContinue: () => void;
   onSkip?: () => void;
-  gradientColors?: string[];
+  gradientColors?: readonly [ColorValue, ColorValue, ...ColorValue[]];
 };
 
 export function IntroScreen({
@@ -24,7 +25,7 @@ export function IntroScreen({
   imageSource,
   onContinue,
   onSkip,
-  gradientColors = ['#151B3D', '#2442A3'],
+  gradientColors = ['#151B3D', '#2442A3'] as readonly [ColorValue, ColorValue],
 }: IntroScreenProps) {
   const theme = useTheme();
 
@@ -54,9 +55,18 @@ export function IntroScreen({
           </View>
 
           <View style={styles.buttonContainer}>
-            <Button label="Continue" onPress={onContinue} style={styles.continueButton} />
+            <Button 
+              label="Continue" 
+              onPress={onContinue} 
+              // Remove style prop as it's not supported
+            />
             {onSkip && (
-              <Button label="Skip" variant="ghost" onPress={onSkip} style={styles.skipButton} />
+              <Button 
+                label="Skip" 
+                variant="ghost" 
+                onPress={onSkip} 
+                // Remove style prop as it's not supported
+              />
             )}
           </View>
         </View>
@@ -73,7 +83,7 @@ export const introScreens = [
     subheadline: 'Behind every world-changing innovation lies an intuitive spark logic couldn\'t predict',
     body: 'Einstein visualized riding on a beam of light before writing relativity. Jobs knew what people wanted before they did. Intuition bridges the gap between what we know and what we discover.',
     imageSource: require('@/assets/overlays/halo.png'),
-    gradientColors: ['#151B3D', '#2442A3'],
+    gradientColors: ['#151B3D', '#2442A3'] as readonly [ColorValue, ColorValue],
   },
   {
     id: 'intuition-ai',
@@ -81,7 +91,7 @@ export const introScreens = [
     subheadline: 'In an age of artificial intelligence, intuition remains our most powerful differentiator',
     body: 'AI excels at pattern recognition, but only humans make intuitive leaps that connect seemingly unrelated dots. This creative instinct—the ability to know without knowing how—is what sets us apart.',
     imageSource: require('@/assets/overlays/halo.png'),
-    gradientColors: ['#11152B', '#421D57'],
+    gradientColors: ['#11152B', '#421D57'] as readonly [ColorValue, ColorValue],
   },
   {
     id: 'intuition-training',
@@ -89,7 +99,7 @@ export const introScreens = [
     subheadline: 'Your intuition is a muscle that grows stronger with the right training',
     body: 'Elite performers across fields share one trait: finely-tuned intuition. Through targeted exercises, you can calibrate your gut instincts to make faster, more accurate decisions when it matters most.',
     imageSource: require('@/assets/overlays/halo.png'),
-    gradientColors: ['#061824', '#104061'],
+    gradientColors: ['#061824', '#104061'] as readonly [ColorValue, ColorValue],
   },
 ];
 

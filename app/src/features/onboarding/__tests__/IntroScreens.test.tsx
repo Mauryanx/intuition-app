@@ -6,7 +6,16 @@ import { introScreens } from '../IntroScreens';
 // Using React Native components instead of HTML elements
 import { View, Text, TouchableOpacity } from 'react-native';
 
-const IntroScreen = ({ headline, subheadline, body, onContinue, onSkip }) => (
+type MockIntroScreenProps = {
+  headline: string;
+  subheadline: string;
+  body: string;
+  onContinue: () => void;
+  onSkip?: () => void;
+  imageSource?: any; // Added to match the props passed in tests
+};
+
+const IntroScreen = ({ headline, subheadline, body, onContinue, onSkip, imageSource }: MockIntroScreenProps) => (
   <View testID="intro-screen">
     <Text testID="headline">{headline}</Text>
     <Text testID="subheadline">{subheadline}</Text>
