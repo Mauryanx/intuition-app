@@ -6,6 +6,7 @@ import {
   ScrollView,
   StatusBar,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
@@ -16,7 +17,7 @@ import { useTheme } from '@/theme';
 import { personaCopy, type PersonaKey } from '../content';
 import { Button } from '@/components';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 type QuizResultsScreenProps = {
   persona: PersonaKey;
@@ -42,7 +43,7 @@ export function QuizResultsScreen({ persona, onContinue }: QuizResultsScreenProp
   };
   
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <LinearGradient
         colors={gradientColors[persona]}
@@ -50,6 +51,22 @@ export function QuizResultsScreen({ persona, onContinue }: QuizResultsScreenProp
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
+        <View style={styles.header}>
+          <MotiView
+            from={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              type: 'timing',
+              duration: 800,
+              easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+            }}
+          >
+            <Text style={[styles.resultTitle, { color: theme.colors.text.primary }]}>
+              Your Intuition Type
+            </Text>
+          </MotiView>
+        </View>
+        
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
@@ -79,26 +96,11 @@ export function QuizResultsScreen({ persona, onContinue }: QuizResultsScreenProp
             transition={{
               type: 'timing',
               duration: 600,
-              delay: 400,
-              easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-            }}
-          >
-            <Text style={[styles.resultTitle, { color: theme.colors.text.primary }]}>
-              Your Intuition Type
-            </Text>
-          </MotiView>
-          
-          <MotiView
-            from={{ opacity: 0, translateY: 20 }}
-            animate={{ opacity: 1, translateY: 0 }}
-            transition={{
-              type: 'timing',
-              duration: 600,
               delay: 600,
               easing: Easing.bezier(0.25, 0.1, 0.25, 1),
             }}
           >
-            <BlurView intensity={15} tint="dark" style={styles.resultCard}>
+            <BlurView intensity={20} tint="dark" style={styles.resultCard}>
               <Text style={[styles.personaTitle, { color: theme.colors.accent.primary }]}>
                 {personaData.title}
               </Text>
@@ -151,28 +153,29 @@ export function QuizResultsScreen({ persona, onContinue }: QuizResultsScreenProp
               You'll receive exercises tailored to your specific intuitive strengths.
             </Text>
           </MotiView>
+          
+          {/* Continue button moved inside the scroll view */}
+          <MotiView
+            from={{ opacity: 0, translateY: 20 }}
+            animate={{ opacity: 1, translateY: 0 }}
+            transition={{
+              type: 'timing',
+              duration: 600,
+              delay: 1600,
+              easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+            }}
+            style={styles.buttonContainer}
+          >
+            <BlurView intensity={30} tint="dark" style={styles.buttonBlur}>
+              <Button
+                label="Continue to Training Plan"
+                onPress={onContinue}
+              />
+            </BlurView>
+          </MotiView>
         </ScrollView>
-        
-        <MotiView
-          from={{ opacity: 0, translateY: 20 }}
-          animate={{ opacity: 1, translateY: 0 }}
-          transition={{
-            type: 'timing',
-            duration: 600,
-            delay: 1600,
-            easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-          }}
-          style={styles.footer}
-        >
-          <BlurView intensity={30} tint="dark" style={styles.buttonBlur}>
-            <Button
-              label="Continue to Training Plan"
-              onPress={onContinue}
-            />
-          </BlurView>
-        </MotiView>
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -185,93 +188,117 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  header: {
+    paddingTop: 20,
+    paddingBottom: 10,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+  },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
     paddingHorizontal: 24,
-    paddingTop: 40,
-    paddingBottom: 100,
+    paddingTop: 20,
+    paddingBottom: 40,
   },
   animationContainer: {
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
   },
   animation: {
-    width: width * 0.5,
-    height: width * 0.5,
+    width: width * 0.4,
+    height: width * 0.4,
   },
   resultTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: '700',
     textAlign: 'center',
-    marginBottom: 24,
-    opacity: 0.9,
-    letterSpacing: 1,
+    opacity: 0.95,
+    letterSpacing: 1.2,
     textTransform: 'uppercase',
   },
   resultCard: {
-    borderRadius: 16,
-    padding: 24,
+    borderRadius: 20,
+    padding: 28,
     marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 5,
   },
   personaTitle: {
-    fontSize: 28,
-    fontWeight: '700',
-    marginBottom: 12,
+    fontSize: 32,
+    fontWeight: '800',
+    marginBottom: 16,
     textAlign: 'center',
+    letterSpacing: 0.5,
   },
   personaSubtitle: {
-    fontSize: 18,
-    lineHeight: 26,
+    fontSize: 19,
+    lineHeight: 28,
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: 28,
+    opacity: 0.9,
   },
   divider: {
-    height: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    marginBottom: 24,
+    height: 2,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    marginBottom: 28,
+    width: '60%',
+    alignSelf: 'center',
   },
   focusTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 16,
-    opacity: 0.8,
+    fontSize: 17,
+    fontWeight: '700',
+    marginBottom: 20,
+    opacity: 0.85,
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
   },
   focusItem: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 16,
+    marginBottom: 18,
   },
   bulletPoint: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     marginTop: 8,
-    marginRight: 12,
+    marginRight: 14,
   },
   focusText: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 17,
+    lineHeight: 26,
     flex: 1,
+    fontWeight: '500',
   },
   description: {
-    marginBottom: 24,
+    marginBottom: 30,
+    paddingHorizontal: 10,
   },
   descriptionText: {
     fontSize: 16,
-    lineHeight: 24,
+    lineHeight: 26,
     textAlign: 'center',
-    opacity: 0.8,
+    opacity: 0.85,
+    fontWeight: '500',
   },
-  footer: {
-    padding: 24,
-    paddingBottom: 40,
+  buttonContainer: {
+    marginVertical: 10,
   },
   buttonBlur: {
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: 'hidden',
-    padding: 16,
+    padding: 18,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 4,
   },
 });

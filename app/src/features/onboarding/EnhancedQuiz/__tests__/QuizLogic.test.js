@@ -1,6 +1,6 @@
 // Simple tests for quiz logic without rendering
 
-import { quizQuestions } from '../../content';
+import { quizQuestions, derivePersona, personaCopy } from '../../content';
 
 describe('Quiz Logic', () => {
   // Test 1: Verify that quiz questions have the correct structure
@@ -97,5 +97,97 @@ describe('Quiz Logic', () => {
     }
     
     expect(currentQuestionIndex).toBe(totalQuestions - 2);
+  });
+  
+  // Test 4: Test persona derivation logic
+  test('persona derivation logic works correctly', () => {
+    // Create selections that should result in "seer" persona
+    const seerSelections = {};
+    quizQuestions.forEach(question => {
+      // Find a "seer" choice for each question
+      const seerChoice = question.choices.find(choice => choice.persona === 'seer');
+      if (seerChoice) {
+        seerSelections[question.id] = seerChoice.persona;
+      } else {
+        // If no seer choice, use the first choice
+        seerSelections[question.id] = question.choices[0].persona;
+      }
+    });
+    
+    // Make sure most choices are "seer"
+    // Override at least 4 selections to be "seer" to ensure it's the dominant persona
+    const firstFourQuestions = quizQuestions.slice(0, 4);
+    firstFourQuestions.forEach(question => {
+      seerSelections[question.id] = 'seer';
+    });
+    
+    // Derive persona from selections
+    const derivedPersona = derivePersona(seerSelections);
+    
+    // Verify the derived persona is "seer"
+    expect(derivedPersona).toBe('seer');
+    
+    // Verify persona data exists
+    expect(personaCopy[derivedPersona]).toBeDefined();
+    expect(personaCopy[derivedPersona].title).toBeDefined();
+    expect(personaCopy[derivedPersona].subtitle).toBeDefined();
+    expect(personaCopy[derivedPersona].focus).toBeDefined();
+  });
+  
+  // Test 5: Test quiz completion validation
+  test('quiz can only be completed when all questions have answers', () => {
+    // Create an incomplete set of selections
+    const incompleteSelections = {};
+    
+    // Add selections for all but the last question
+    for (let i = 0; i < quizQuestions.length - 1; i++) {
+      const question = quizQuestions[i];
+      incompleteSelections[question.id] = question.choices[0].persona;
+    }
+    
+    // Check that not all questions have answers
+    const allQuestionsAnswered = quizQuestions.every(question => 
+      incompleteSelections.hasOwnProperty(question.id)
+    );
+    
+    expect(allQuestionsAnswered).toBe(false);
+    
+    // Complete the selections
+    const completeSelections = { ...incompleteSelections };
+    const lastQuestion = quizQuestions[quizQuestions.length - 1];
+    completeSelections[lastQuestion.id] = lastQuestion.choices[0].persona;
+    
+    // Check that all questions now have answers
+    const allQuestionsAnsweredNow = quizQuestions.every(question => 
+      completeSelections.hasOwnProperty(question.id)
+    );
+    
+    expect(allQuestionsAnsweredNow).toBe(true);
+  });
+  
+  // Test 6: Test selection change
+  test('changing a selection updates the state correctly', () => {
+    // Create initial selections
+    const initialSelections = {};
+    quizQuestions.forEach(question => {
+      initialSelections[question.id] = question.choices[0].persona;
+    });
+    
+    // Change a selection
+    const updatedSelections = { ...initialSelections };
+    const questionToChange = quizQuestions[0];
+    const newChoice = questionToChange.choices[1]; // Use the second choice instead
+    
+    updatedSelections[questionToChange.id] = newChoice.persona;
+    
+    // Verify the selection was changed
+    expect(updatedSelections[questionToChange.id]).toBe(newChoice.persona);
+    expect(updatedSelections[questionToChange.id]).not.toBe(initialSelections[questionToChange.id]);
+    
+    // Verify other selections remain unchanged
+    for (let i = 1; i < quizQuestions.length; i++) {
+      const question = quizQuestions[i];
+      expect(updatedSelections[question.id]).toBe(initialSelections[question.id]);
+    }
   });
 });

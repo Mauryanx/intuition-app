@@ -161,8 +161,8 @@ export const personaCopy: Record<
 type ScoreBucket = Record<PersonaKey, number>;
 
 export function derivePersona(
-  reflectionId: string | null,
   quizSelections: Record<string, PersonaKey>,
+  reflectionId: string | null = null,
 ): PersonaKey {
   const scores: ScoreBucket = {
     seer: 0,
