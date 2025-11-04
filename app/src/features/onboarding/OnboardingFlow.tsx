@@ -7,7 +7,7 @@ import * as Haptics from 'expo-haptics';
 import { Button, Card, ProgressDots, Screen } from '@/components';
 import { IntroScreen, introScreens } from './IntroScreens';
 import { PainPointScreen, painPointScreens } from './PainPointScreens';
-import { QuizScreen, QuizResultsScreen } from './EnhancedQuiz';
+import { QuizScreen, QuizResultsScreen, TrainingFocusScreen } from './EnhancedQuiz';
 import { useTheme } from '@/theme';
 import { t } from '@/localization';
 import { trackEvent } from '@/services/analytics';
@@ -33,7 +33,8 @@ const ONBOARDING_STEPS = [
   { id: 'science' },
   { id: 'reflection' },
   { id: 'quiz' },
-  { id: 'plan' },
+  { id: 'persona' },
+  { id: 'training' },
   { id: 'paywall' },
 ] as const;
 
@@ -239,16 +240,16 @@ export function OnboardingFlow({ navigation }: Props) {
                       onBack={goToPreviousStep}
                     />
                   ) : null}
-          {activeStep === 'plan' && persona ? (
+          {activeStep === 'persona' && persona ? (
             <QuizResultsScreen
               persona={persona}
-              onContinue={handlePlanContinue}
+              onContinue={goToNextStep}
             />
-          ) : activeStep === 'plan' ? (
-            <PlanStep
+          ) : null}
+          {activeStep === 'training' && persona ? (
+            <TrainingFocusScreen
               persona={persona}
-              onBack={goToPreviousStep}
-              onContinue={handlePlanContinue}
+              onContinue={goToNextStep}
             />
           ) : null}
           {activeStep === 'paywall' ? (
