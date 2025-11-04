@@ -7,7 +7,7 @@ import * as Haptics from 'expo-haptics';
 import { Button, Card, ProgressDots, Screen } from '@/components';
 import { IntroScreen, introScreens } from './IntroScreens';
 import { PainPointScreen, painPointScreens } from './PainPointScreens';
-import { QuizScreen, QuizResultsScreen, TrainingFocusScreen } from './EnhancedQuiz';
+import { QuizScreen, QuizResultsScreen, TrainingFocusScreen, LoadingScreen } from './EnhancedQuiz';
 import { useTheme } from '@/theme';
 import { t } from '@/localization';
 import { trackEvent } from '@/services/analytics';
@@ -33,6 +33,7 @@ const ONBOARDING_STEPS = [
   { id: 'science' },
   { id: 'reflection' },
   { id: 'quiz' },
+  { id: 'loading' },
   { id: 'persona' },
   { id: 'training' },
   { id: 'paywall' },
@@ -234,10 +235,16 @@ export function OnboardingFlow({ navigation }: Props) {
                         
                         // The persona will be derived via useMemo when quizSelections changes
                         
-                        // Move to plan step
+                        // Move to loading step
                         goToNextStep();
                       }}
                       onBack={goToPreviousStep}
+                    />
+                  ) : null}
+                  {activeStep === 'loading' ? (
+                    <LoadingScreen
+                      onComplete={goToNextStep}
+                      loadingTime={4000} // 4 seconds of loading animation
                     />
                   ) : null}
           {activeStep === 'persona' && persona ? (
