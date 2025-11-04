@@ -7,6 +7,7 @@ import * as Haptics from 'expo-haptics';
 import { Button, Card, ProgressDots, Screen } from '@/components';
 import { IntroScreen, introScreens } from './IntroScreens';
 import { PainPointScreen, painPointScreens } from './PainPointScreens';
+import { QuizScreen, QuizResultsScreen } from './EnhancedQuiz';
 import { useTheme } from '@/theme';
 import { t } from '@/localization';
 import { trackEvent } from '@/services/analytics';
@@ -44,23 +45,20 @@ export function OnboardingFlow({ navigation }: Props) {
   const theme = useTheme();
   const [stepIndex, setStepIndex] = useState(0);
   const [reflectionId, setReflectionId] = useState<string | null>(null);
-  const [quizIndex, setQuizIndex] = useState(0);
   const [quizSelections, setQuizSelections] = useState<Record<string, PersonaKey>>({});
   const [isPaywallLoading, setIsPaywallLoading] = useState(false);
   const { setPersonaData } = useProfileStore();
 
   const activeStep: OnboardingStep = ONBOARDING_STEPS[stepIndex]?.id ?? 'welcome';
   const totalSteps = ONBOARDING_STEPS.length;
-  const quizQuestion = quizQuestions[quizIndex];
-  const hasQuizCompleted = Object.keys(quizSelections).length === quizQuestions.length;
 
   const persona = useMemo(() => {
-    if (!hasQuizCompleted) {
+    if (Object.keys(quizSelections).length === 0) {
       return null;
     }
 
-    return derivePersona(reflectionId, quizSelections);
-  }, [hasQuizCompleted, quizSelections, reflectionId]);
+    return derivePersona(quizSelections);
+  }, [quizSelections]);
 
   useEffect(() => {
     trackEvent({ name: 'onboarding_step_view', params: { step: activeStep } });
@@ -146,38 +144,7 @@ export function OnboardingFlow({ navigation }: Props) {
     goToNextStep();
   }, [goToNextStep, reflectionId]);
 
-  const handleQuizChoice = useCallback(
-    (personaKey: PersonaKey) => {
-      if (!quizQuestion) {
-        return;
-      }
-      Haptics.selectionAsync().catch(() => undefined);
-      setQuizSelections((prev) => ({ ...prev, [quizQuestion.id]: personaKey }));
-    },
-    [quizQuestion],
-  );
-
-  const handleQuizContinue = useCallback(() => {
-    if (!quizQuestion) {
-      return;
-    }
-    const answeredPersona = quizSelections[quizQuestion.id];
-    if (!answeredPersona) {
-      return;
-    }
-
-    trackEvent({
-      name: 'onboarding_continue',
-      params: { step: 'quiz', questionId: quizQuestion.id, persona: answeredPersona },
-    });
-
-    if (quizIndex < quizQuestions.length - 1) {
-      setQuizIndex((prev) => prev + 1);
-      return;
-    }
-
-    goToNextStep();
-  }, [goToNextStep, quizIndex, quizQuestion, quizSelections]);
+  // Quiz logic is now handled within the QuizScreen component
 
   const handlePlanContinue = useCallback(() => {
     trackEvent({ name: 'onboarding_continue', params: { step: 'plan', persona } });
@@ -258,24 +225,28 @@ export function OnboardingFlow({ navigation }: Props) {
               onContinue={handleReflectionContinue}
             />
           ) : null}
-          {activeStep === 'quiz' && quizQuestion ? (
-            <QuizStep
-              questionIndex={quizIndex}
-              questionCount={quizQuestions.length}
-              question={quizQuestion}
-              selectedPersona={quizSelections[quizQuestion.id]}
-              onSelect={handleQuizChoice}
-              onBack={() => {
-                if (quizIndex === 0) {
-                  goToPreviousStep();
-                  return;
-                }
-                setQuizIndex((prev) => Math.max(prev - 1, 0));
-              }}
-              onContinue={handleQuizContinue}
+                  {activeStep === 'quiz' ? (
+                    <QuizScreen
+                      onComplete={selections => {
+                        // Save all selections at once
+                        setQuizSelections(selections);
+                        
+                        // Derive persona from selections
+                        const newPersona = derivePersona(selections);
+                        setPersona(newPersona);
+                        
+                        // Move to plan step
+                        goToNextStep();
+                      }}
+                      onBack={goToPreviousStep}
+                    />
+                  ) : null}
+          {activeStep === 'plan' && persona ? (
+            <QuizResultsScreen
+              persona={persona}
+              onContinue={handlePlanContinue}
             />
-          ) : null}
-          {activeStep === 'plan' ? (
+          ) : activeStep === 'plan' ? (
             <PlanStep
               persona={persona}
               onBack={goToPreviousStep}
@@ -460,73 +431,7 @@ function ReflectionStep({ activeId, onSelect, onBack, onContinue }: ReflectionSt
   );
 }
 
-type QuizStepProps = {
-  questionIndex: number;
-  questionCount: number;
-  question: (typeof quizQuestions)[number];
-  selectedPersona?: PersonaKey;
-  onSelect: (persona: PersonaKey) => void;
-  onBack: () => void;
-  onContinue: () => void;
-};
-
-function QuizStep({
-  questionIndex,
-  questionCount,
-  question,
-  selectedPersona,
-  onSelect,
-  onBack,
-  onContinue,
-}: QuizStepProps) {
-  const theme = useTheme();
-  const isLast = questionIndex === questionCount - 1;
-  return (
-    <View style={styles.stepContainer}>
-      <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>
-        {t('onboarding.quizTitle')}
-      </Text>
-      <Text style={[styles.quizCounter, { color: theme.colors.text.muted }]}>
-        {`Question ${questionIndex + 1} of ${questionCount}`}
-      </Text>
-      <Text
-        style={[
-          styles.bodyLarge,
-          { color: theme.colors.text.primary, marginBottom: theme.spacing.md },
-        ]}
-      >
-        {question.prompt}
-      </Text>
-      <View style={styles.cardStack}>
-        {question.choices.map((choice) => {
-          const isActive = choice.persona === selectedPersona;
-          return (
-            <Card
-              key={choice.id}
-              style={[
-                styles.selectCard,
-                isActive ? { borderColor: theme.colors.accent.secondary } : null,
-              ]}
-              onPress={() => onSelect(choice.persona)}
-            >
-              <Text style={[styles.cardBody, { color: theme.colors.text.primary }]}>
-                {choice.label}
-              </Text>
-            </Card>
-          );
-        })}
-      </View>
-      <View style={styles.stepActions}>
-        <Button label={t('common.back')} variant="ghost" onPress={onBack} />
-        <Button
-          label={isLast ? t('onboarding.quizReveal') : t('onboarding.quizNext')}
-          onPress={onContinue}
-          disabled={!selectedPersona}
-        />
-      </View>
-    </View>
-  );
-}
+// Old QuizStep has been replaced by the enhanced QuizScreen component
 
 type PlanStepProps = {
   persona: PersonaKey | null;
