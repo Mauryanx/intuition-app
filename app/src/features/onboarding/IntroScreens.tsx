@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ColorValue } from 'react-native';
+import { BlurView } from 'expo-blur';
+import { useFonts } from 'expo-font';
 
 import { Button } from '@/components';
 import { useTheme } from '@/theme';
@@ -28,24 +30,31 @@ export function IntroScreen({
   gradientColors = ['#151B3D', '#2442A3'] as readonly [ColorValue, ColorValue],
 }: IntroScreenProps) {
   const theme = useTheme();
-
+  
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <LinearGradient
         colors={gradientColors}
         style={styles.gradient}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
+        start={{ x: 0.1, y: 0 }}
+        end={{ x: 0.9, y: 1 }}
       >
+        {/* Subtle pattern overlay */}
+        <View style={styles.patternOverlay} />
+        
         <View style={styles.contentContainer}>
-          <View style={styles.imageContainer}>
-            <Image source={imageSource} style={styles.image} resizeMode="contain" />
-          </View>
-
+          {/* Top accent line */}
+          <View style={styles.accentLine} />
+          
           <View style={styles.textContainer}>
+            <Text style={[styles.kicker, { color: theme.colors.accent.primary }]}>
+              INTUITION TRAINER
+            </Text>
             <Text style={[styles.headline, { color: theme.colors.text.primary }]}>
               {headline}
             </Text>
+            <View style={styles.divider} />
             <Text style={[styles.subheadline, { color: theme.colors.accent.primary }]}>
               {subheadline}
             </Text>
@@ -55,19 +64,19 @@ export function IntroScreen({
           </View>
 
           <View style={styles.buttonContainer}>
-            <Button 
-              label="Continue" 
-              onPress={onContinue} 
-              // Remove style prop as it's not supported
-            />
-            {onSkip && (
+            <BlurView intensity={30} tint="dark" style={styles.buttonBlur}>
               <Button 
-                label="Skip" 
-                variant="ghost" 
-                onPress={onSkip} 
-                // Remove style prop as it's not supported
+                label="Continue" 
+                onPress={onContinue}
               />
-            )}
+              {onSkip && (
+                <Button 
+                  label="Skip" 
+                  variant="ghost" 
+                  onPress={onSkip}
+                />
+              )}
+            </BlurView>
           </View>
         </View>
       </LinearGradient>
@@ -112,53 +121,80 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  patternOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0.05,
+    backgroundColor: 'transparent',
+    backgroundImage: 'radial-gradient(circle, #FFFFFF 1px, transparent 1px)',
+    backgroundSize: '20px 20px',
+  },
   contentContainer: {
     flex: 1,
-    padding: 24,
+    padding: 32,
     justifyContent: 'space-between',
   },
-  imageContainer: {
-    alignItems: 'center',
+  accentLine: {
+    width: 60,
+    height: 4,
+    backgroundColor: '#FFFFFF',
+    opacity: 0.3,
     marginTop: 40,
-  },
-  image: {
-    width: width * 0.6,
-    height: width * 0.6,
-    opacity: 0.9,
+    marginBottom: 20,
+    borderRadius: 2,
   },
   textContainer: {
-    alignItems: 'center',
-    marginVertical: 40,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  kicker: {
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 2,
+    marginBottom: 16,
+    opacity: 0.7,
   },
   headline: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: '700',
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: 16,
-    letterSpacing: 0.3,
+    letterSpacing: 0.5,
+    lineHeight: 44,
+  },
+  divider: {
+    width: 40,
+    height: 2,
+    backgroundColor: '#FFFFFF',
+    opacity: 0.3,
+    marginBottom: 24,
   },
   subheadline: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: 20,
-    paddingHorizontal: 20,
     letterSpacing: 0.2,
+    lineHeight: 28,
   },
   body: {
     fontSize: 16,
-    lineHeight: 24,
-    textAlign: 'center',
-    paddingHorizontal: 20,
+    lineHeight: 26,
+    textAlign: 'left',
+    opacity: 0.8,
+    marginBottom: 40,
   },
   buttonContainer: {
     marginBottom: 40,
+    alignSelf: 'stretch',
   },
-  continueButton: {
-    marginBottom: 12,
-    paddingVertical: 16,
-  },
-  skipButton: {
-    paddingVertical: 12,
+  buttonBlur: {
+    borderRadius: 12,
+    overflow: 'hidden',
+    padding: 16,
   },
 });
