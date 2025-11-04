@@ -6,6 +6,7 @@ import * as Haptics from 'expo-haptics';
 
 import { Button, Card, ProgressDots, Screen } from '@/components';
 import { IntroScreen, introScreens } from './IntroScreens';
+import { PainPointScreen, painPointScreens } from './PainPointScreens';
 import { useTheme } from '@/theme';
 import { t } from '@/localization';
 import { trackEvent } from '@/services/analytics';
@@ -25,6 +26,9 @@ const ONBOARDING_STEPS = [
   { id: 'intro1' },
   { id: 'intro2' },
   { id: 'intro3' },
+  { id: 'pain1' },
+  { id: 'pain2' },
+  { id: 'pain3' },
   { id: 'science' },
   { id: 'reflection' },
   { id: 'quiz' },
@@ -98,6 +102,26 @@ export function OnboardingFlow({ navigation }: Props) {
   
   const handleSkipIntro = useCallback(() => {
     trackEvent({ name: 'onboarding_skip', params: { step: 'intro' } });
+    setStepIndex(ONBOARDING_STEPS.findIndex(step => step.id === 'pain1'));
+  }, []);
+  
+  const handlePain1Continue = useCallback(() => {
+    trackEvent({ name: 'onboarding_continue', params: { step: 'pain1' } });
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handlePain2Continue = useCallback(() => {
+    trackEvent({ name: 'onboarding_continue', params: { step: 'pain2' } });
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handlePain3Continue = useCallback(() => {
+    trackEvent({ name: 'onboarding_continue', params: { step: 'pain3' } });
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handleSkipPain = useCallback(() => {
+    trackEvent({ name: 'onboarding_skip', params: { step: 'pain' } });
     setStepIndex(ONBOARDING_STEPS.findIndex(step => step.id === 'science'));
   }, []);
 
@@ -196,6 +220,23 @@ export function OnboardingFlow({ navigation }: Props) {
         <IntroScreen 
           {...introScreens[2]}
           onContinue={handleIntro3Continue}
+        />
+      ) : activeStep === 'pain1' ? (
+        <PainPointScreen 
+          {...painPointScreens[0]}
+          onContinue={handlePain1Continue}
+          onSkip={handleSkipPain}
+        />
+      ) : activeStep === 'pain2' ? (
+        <PainPointScreen 
+          {...painPointScreens[1]}
+          onContinue={handlePain2Continue}
+          onSkip={handleSkipPain}
+        />
+      ) : activeStep === 'pain3' ? (
+        <PainPointScreen 
+          {...painPointScreens[2]}
+          onContinue={handlePain3Continue}
         />
       ) : (
         <ScrollView
