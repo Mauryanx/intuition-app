@@ -231,9 +231,7 @@ export function OnboardingFlow({ navigation }: Props) {
                         // Save all selections at once
                         setQuizSelections(selections);
                         
-                        // Derive persona from selections
-                        const newPersona = derivePersona(selections);
-                        setPersona(newPersona);
+                        // The persona will be derived via useMemo when quizSelections changes
                         
                         // Move to plan step
                         goToNextStep();
