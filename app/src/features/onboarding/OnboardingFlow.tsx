@@ -8,6 +8,7 @@ import { Button, Card, ProgressDots, Screen } from '@/components';
 import { IntroScreen, introScreens } from './IntroScreens';
 import { PainPointScreen, painPointScreens } from './PainPointScreens';
 import { QuizScreen, QuizResultsScreen, TrainingFocusScreen, LoadingScreen } from './EnhancedQuiz';
+import { AuthScreen } from './AuthScreen';
 import { useTheme } from '@/theme';
 import { t } from '@/localization';
 import { trackEvent } from '@/services/analytics';
@@ -36,6 +37,7 @@ const ONBOARDING_STEPS = [
   { id: 'loading' },
   { id: 'persona' },
   { id: 'training' },
+  { id: 'auth' },
   { id: 'paywall' },
 ] as const;
 
@@ -168,6 +170,20 @@ export function OnboardingFlow({ navigation }: Props) {
     trackEvent({ name: 'paywall_skipped' });
     handleComplete();
   }, [handleComplete]);
+  
+  const handleAppleSignIn = useCallback(() => {
+    // In a real implementation, this would handle Apple sign-in
+    trackEvent({ name: 'auth_apple_signin' });
+    // For now, just proceed to the next step
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handleGoogleSignIn = useCallback(() => {
+    // In a real implementation, this would handle Google sign-in
+    trackEvent({ name: 'auth_google_signin' });
+    // For now, just proceed to the next step
+    goToNextStep();
+  }, [goToNextStep]);
 
   return (
     <Screen>
@@ -257,6 +273,13 @@ export function OnboardingFlow({ navigation }: Props) {
             <TrainingFocusScreen
               persona={persona}
               onContinue={goToNextStep}
+            />
+          ) : null}
+          {activeStep === 'auth' ? (
+            <AuthScreen
+              onAppleSignIn={handleAppleSignIn}
+              onGoogleSignIn={handleGoogleSignIn}
+              onSkip={goToNextStep}
             />
           ) : null}
           {activeStep === 'paywall' ? (
