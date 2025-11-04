@@ -80,7 +80,7 @@ export const painPointScreens = [
     id: 'bad-decisions',
     headline: 'When Intuition Leads You Astray',
     subheadline: 'Bad decisions often stem from untrained intuition',
-    body: 'We've all experienced that sinking feeling after making a decision that felt right in the moment, but proved disastrous. Untrained intuition can be hijacked by biases, fears, and incomplete information—leading to choices we later regret.',
+    body: 'We\'ve all experienced that sinking feeling after making a decision that felt right in the moment, but proved disastrous. Untrained intuition can be hijacked by biases, fears, and incomplete information—leading to choices we later regret.',
     imageSource: require('@/assets/overlays/halo.png'),
     gradientColors: ['#3D1515', '#A32424'] as readonly [ColorValue, ColorValue],
   },
