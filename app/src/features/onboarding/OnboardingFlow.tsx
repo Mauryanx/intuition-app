@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as Haptics from 'expo-haptics';
-// Removed Superwall import
 
 import { Button, Card, ProgressDots, Screen } from '@/components';
 import { IntroScreen, introScreens } from './IntroScreens';
@@ -22,6 +21,7 @@ import {
 } from './content';
 import { useProfileStore } from '@/state/profile';
 import type { RootStackParamList } from '@/navigation/RootNavigator';
+import { CinematicIntro } from './CinematicIntro';
 
 const ONBOARDING_STEPS = [
   { id: 'welcome' },
@@ -82,30 +82,30 @@ export function OnboardingFlow({ navigation }: Props) {
     setStepIndex((prev) => Math.max(prev - 1, 0));
   }, []);
 
-import { CinematicIntro } from './CinematicIntro';
-
-// ... imports ...
-
-export function OnboardingFlow({ navigation }: Props) {
-  // ... state hooks ...
-
-  // Replace the first logical branch with CinematicIntro
-  if (activeStep === 'welcome' || activeStep === 'intro1' || activeStep === 'intro2' || activeStep === 'intro3') {
-    return (
-      <Screen>
-        <CinematicIntro 
-          onComplete={() => {
-            // Jump to the pain point screens
-            // Find index of 'pain1'
-            const painIndex = ONBOARDING_STEPS.findIndex(s => s.id === 'pain1');
-            setStepIndex(painIndex);
-          }} 
-        />
-      </Screen>
-    );
-  }
-
-  // ... rest of the render logic ...
+  const handleHeroContinue = useCallback(() => {
+    trackEvent({ name: 'onboarding_continue', params: { step: 'welcome' } });
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handleIntro1Continue = useCallback(() => {
+    trackEvent({ name: 'onboarding_continue', params: { step: 'intro1' } });
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handleIntro2Continue = useCallback(() => {
+    trackEvent({ name: 'onboarding_continue', params: { step: 'intro2' } });
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handleIntro3Continue = useCallback(() => {
+    trackEvent({ name: 'onboarding_continue', params: { step: 'intro3' } });
+    goToNextStep();
+  }, [goToNextStep]);
+  
+  const handleSkipIntro = useCallback(() => {
+    trackEvent({ name: 'onboarding_skip', params: { step: 'intro' } });
+    setStepIndex(ONBOARDING_STEPS.findIndex(step => step.id === 'pain1'));
+  }, []);
   
   const handlePain1Continue = useCallback(() => {
     trackEvent({ name: 'onboarding_continue', params: { step: 'pain1' } });
@@ -185,29 +185,24 @@ export function OnboardingFlow({ navigation }: Props) {
     goToNextStep();
   }, [goToNextStep]);
 
-import { CinematicIntro } from './CinematicIntro';
-
-// ... imports ...
-
-export function OnboardingFlow({ navigation }: Props) {
-  // ... state hooks ...
-
-  // Check if we should show the Cinematic Intro
-  // This replaces 'welcome', 'intro1', 'intro2', 'intro3'
+  // Replace the first logical branch with CinematicIntro
   if (activeStep === 'welcome' || activeStep === 'intro1' || activeStep === 'intro2' || activeStep === 'intro3') {
     return (
-       <Screen>
-          <CinematicIntro 
-             onComplete={() => {
-                const painIndex = ONBOARDING_STEPS.findIndex(s => s.id === 'pain1');
-                setStepIndex(painIndex);
-             }}
-          />
-       </Screen>
+      <Screen>
+        <CinematicIntro 
+          onComplete={() => {
+            // Jump to the pain point screens
+            const painIndex = ONBOARDING_STEPS.findIndex(s => s.id === 'pain1');
+            setStepIndex(painIndex);
+          }} 
+        />
+      </Screen>
     );
   }
 
-  // ... rest of the render logic ...
+  return (
+    <Screen>
+      {activeStep === 'pain1' ? (
         <PainPointScreen 
           {...painPointScreens[0]}
           onContinue={handlePain1Continue}
@@ -297,6 +292,10 @@ export function OnboardingFlow({ navigation }: Props) {
     </Screen>
   );
 }
+
+// Helper components (HeroStep, ScienceStep, etc.) would remain below
+// ... but for brevity in this full file write, I need to include them or the file will break
+// I will keep the original file structure below this point.
 
 type HeroStepProps = {
   onContinue: () => void;
@@ -460,8 +459,6 @@ function ReflectionStep({ activeId, onSelect, onBack, onContinue }: ReflectionSt
     </View>
   );
 }
-
-// Old QuizStep has been replaced by the enhanced QuizScreen component
 
 type PlanStepProps = {
   persona: PersonaKey | null;
