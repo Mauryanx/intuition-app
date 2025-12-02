@@ -84,7 +84,7 @@ export function DiscountOfferCard({ onClaim }: DiscountOfferCardProps) {
   );
 }
 
-function formatCountdown(remainingMs: number | null) {
+export function formatCountdown(remainingMs: number | null) {
   if (remainingMs === null || remainingMs <= 0) {
     return '00:00';
   }
