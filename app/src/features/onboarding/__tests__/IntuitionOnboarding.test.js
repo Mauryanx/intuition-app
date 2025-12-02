@@ -11,7 +11,8 @@ describe('Intuition Onboarding Flow', () => {
     expect(fileContent).toContain("Overthinking is a Trap");
     expect(fileContent).toContain("Analysis Paralysis");
     expect(fileContent).toContain("The Speed Advantage");
-    expect(fileContent).toContain("Calibrate, Don't Guess");
+    // Match the escaped character in the source file
+    expect(fileContent).toContain("Calibrate, Don\\'t Guess");
   });
 
   it('OnboardingQuiz should contain question logic', () => {
