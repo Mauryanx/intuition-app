@@ -82,30 +82,30 @@ export function OnboardingFlow({ navigation }: Props) {
     setStepIndex((prev) => Math.max(prev - 1, 0));
   }, []);
 
-  const handleHeroContinue = useCallback(() => {
-    trackEvent({ name: 'onboarding_continue', params: { step: 'welcome' } });
-    goToNextStep();
-  }, [goToNextStep]);
-  
-  const handleIntro1Continue = useCallback(() => {
-    trackEvent({ name: 'onboarding_continue', params: { step: 'intro1' } });
-    goToNextStep();
-  }, [goToNextStep]);
-  
-  const handleIntro2Continue = useCallback(() => {
-    trackEvent({ name: 'onboarding_continue', params: { step: 'intro2' } });
-    goToNextStep();
-  }, [goToNextStep]);
-  
-  const handleIntro3Continue = useCallback(() => {
-    trackEvent({ name: 'onboarding_continue', params: { step: 'intro3' } });
-    goToNextStep();
-  }, [goToNextStep]);
-  
-  const handleSkipIntro = useCallback(() => {
-    trackEvent({ name: 'onboarding_skip', params: { step: 'intro' } });
-    setStepIndex(ONBOARDING_STEPS.findIndex(step => step.id === 'pain1'));
-  }, []);
+import { CinematicIntro } from './CinematicIntro';
+
+// ... imports ...
+
+export function OnboardingFlow({ navigation }: Props) {
+  // ... state hooks ...
+
+  // Replace the first logical branch with CinematicIntro
+  if (activeStep === 'welcome' || activeStep === 'intro1' || activeStep === 'intro2' || activeStep === 'intro3') {
+    return (
+      <Screen>
+        <CinematicIntro 
+          onComplete={() => {
+            // Jump to the pain point screens
+            // Find index of 'pain1'
+            const painIndex = ONBOARDING_STEPS.findIndex(s => s.id === 'pain1');
+            setStepIndex(painIndex);
+          }} 
+        />
+      </Screen>
+    );
+  }
+
+  // ... rest of the render logic ...
   
   const handlePain1Continue = useCallback(() => {
     trackEvent({ name: 'onboarding_continue', params: { step: 'pain1' } });
@@ -185,28 +185,29 @@ export function OnboardingFlow({ navigation }: Props) {
     goToNextStep();
   }, [goToNextStep]);
 
-  return (
-    <Screen>
-      {activeStep === 'welcome' ? (
-        <HeroStep onContinue={handleHeroContinue} />
-      ) : activeStep === 'intro1' ? (
-        <IntroScreen 
-          {...introScreens[0]}
-          onContinue={handleIntro1Continue}
-          onSkip={handleSkipIntro}
-        />
-      ) : activeStep === 'intro2' ? (
-        <IntroScreen 
-          {...introScreens[1]}
-          onContinue={handleIntro2Continue}
-          onSkip={handleSkipIntro}
-        />
-      ) : activeStep === 'intro3' ? (
-        <IntroScreen 
-          {...introScreens[2]}
-          onContinue={handleIntro3Continue}
-        />
-      ) : activeStep === 'pain1' ? (
+import { CinematicIntro } from './CinematicIntro';
+
+// ... imports ...
+
+export function OnboardingFlow({ navigation }: Props) {
+  // ... state hooks ...
+
+  // Check if we should show the Cinematic Intro
+  // This replaces 'welcome', 'intro1', 'intro2', 'intro3'
+  if (activeStep === 'welcome' || activeStep === 'intro1' || activeStep === 'intro2' || activeStep === 'intro3') {
+    return (
+       <Screen>
+          <CinematicIntro 
+             onComplete={() => {
+                const painIndex = ONBOARDING_STEPS.findIndex(s => s.id === 'pain1');
+                setStepIndex(painIndex);
+             }}
+          />
+       </Screen>
+    );
+  }
+
+  // ... rest of the render logic ...
         <PainPointScreen 
           {...painPointScreens[0]}
           onContinue={handlePain1Continue}
