@@ -16,6 +16,13 @@ import { Easing } from 'react-native-reanimated';
 
 const { width, height } = Dimensions.get('window');
 
+export function formatAuthTitle(name?: string): string {
+  if (name && name.trim().length > 0) {
+    return `Welcome back, ${name.trim()}`;
+  }
+  return 'Welcome Back';
+}
+
 type AuthScreenProps = {
   onAppleSignIn: () => void;
   onGoogleSignIn: () => void;
