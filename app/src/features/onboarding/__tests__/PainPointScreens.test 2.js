@@ -29,5 +29,3 @@ describe('Pain Point Screens', () => {
     expect(painPointScreens[2].id).toBe('imagination-vs-clarity');
   });
 });
-
-
