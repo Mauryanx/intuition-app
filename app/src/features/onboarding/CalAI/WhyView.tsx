@@ -16,9 +16,10 @@ import Animated, {
   useSharedValue, 
   useAnimatedStyle, 
   interpolate, 
-  Extrapolation 
+  Extrapolation,
+  SharedValue
 } from 'react-native-reanimated';
-import { useTheme } from '@/theme';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -158,39 +159,41 @@ function parseMarkdown(text: string) {
   return text.replace(/\*\*/g, ''); 
 }
 
-function PageIndicator({ scrollX, count }: { scrollX: Animated.SharedValue<number>; count: number }) {
+function PageIndicator({ scrollX, count }: { scrollX: SharedValue<number>; count: number }) {
   return (
     <View style={styles.indicatorContainer}>
-      {Array.from({ length: count }).map((_, i) => {
-        const animatedStyle = useAnimatedStyle(() => {
-          const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
-          const opacity = interpolate(
-            scrollX.value,
-            inputRange,
-            [0.4, 1, 0.4],
-            Extrapolation.CLAMP
-          );
-          const scale = interpolate(
-            scrollX.value,
-            inputRange,
-            [0.8, 1.2, 0.8],
-            Extrapolation.CLAMP
-          );
-          return { opacity, transform: [{ scale }] };
-        });
-
-        return (
-          <Animated.View key={i} style={[styles.dot, animatedStyle]} />
-        );
-      })}
+      {Array.from({ length: count }).map((_, i) => (
+        <IndicatorDot key={i} index={i} scrollX={scrollX} />
+      ))}
     </View>
   );
+}
+
+function IndicatorDot({ index, scrollX }: { index: number; scrollX: SharedValue<number> }) {
+  const animatedStyle = useAnimatedStyle(() => {
+    const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
+    const opacity = interpolate(
+      scrollX.value,
+      inputRange,
+      [0.4, 1, 0.4],
+      Extrapolation.CLAMP
+    );
+    const scale = interpolate(
+      scrollX.value,
+      inputRange,
+      [0.8, 1.2, 0.8],
+      Extrapolation.CLAMP
+    );
+    return { opacity, transform: [{ scale }] };
+  });
+
+  return <Animated.View style={[styles.dot, animatedStyle]} />;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    transition: 'background-color 0.3s ease', // Note: This is web CSS, won't work in RN natively without Reanimated color interpolation
+    // transition: 'background-color 0.3s ease', // Note: This is web CSS, won't work in RN natively without Reanimated color interpolation
   },
   header: {
     alignItems: 'center',

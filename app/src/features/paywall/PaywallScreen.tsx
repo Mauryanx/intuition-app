@@ -4,9 +4,10 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Button, Screen } from '@/components';
 import { usePaywallLogic } from './hooks/usePaywallLogic';
 import { useProfileStore } from '@/state/profile';
+import { DiscountOfferCard } from './components/DiscountOfferCard';
 
 export function PaywallScreen() {
-  const { pressedButton, freeTrial } = usePaywallLogic();
+  const { pressedButton, freeTrial, fiftyOff } = usePaywallLogic();
   const { name } = useProfileStore();
 
   return (
@@ -23,6 +24,8 @@ export function PaywallScreen() {
             Unlock the full Intuition Trainer experience to keep your momentum.
           </Text>
         </View>
+
+        <DiscountOfferCard onClaim={fiftyOff} />
 
         <View style={styles.ctaGroup}>
           <Button label="Let's get started" onPress={pressedButton} />
