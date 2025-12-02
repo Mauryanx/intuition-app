@@ -2,20 +2,25 @@ import Constants from 'expo-constants';
 
 let isConfigured = false;
 
+type RegisterOptions = {
+  feature: () => void;
+  placement?: string;
+};
+
 // Mock Superwall implementation
 export const SuperwallMock = {
-  register: async ({ feature }: { feature: () => void }) => {
-    // Just execute the feature function directly without showing a paywall
+  register: async ({ feature, placement }: RegisterOptions) => {
+    console.log('[superwall mock] placement', placement ?? 'default');
     feature();
     return true;
   },
   shared: {
-    register: async ({ feature }: { feature: () => void }) => {
-      // Just execute the feature function directly without showing a paywall
+    register: async ({ feature, placement }: RegisterOptions) => {
+      console.log('[superwall mock] placement', placement ?? 'default');
       feature();
       return true;
-    }
-  }
+    },
+  },
 };
 
 export async function ensureSuperwallConfigured(): Promise<void> {

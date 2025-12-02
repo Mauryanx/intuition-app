@@ -18,6 +18,7 @@ import {
   WordSprintScreen,
   AnomalyScoutScreen,
 } from '@/features/games/screens';
+import { PaywallScreen } from '@/features/paywall/PaywallScreen';
 import { useTheme } from '@/theme';
 import { trackEvent } from '@/services/analytics';
 
@@ -89,7 +90,7 @@ export function RootNavigator() {
         />
         <Stack.Screen name="Onboarding" component={OnboardingFlow} />
         <Stack.Screen name="Main" component={MainNavigator} />
-        <Stack.Screen name="Paywall" component={PaywallPlaceholder} />
+        <Stack.Screen name="Paywall" component={PaywallScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -117,6 +118,3 @@ function MainNavigator() {
   );
 }
 
-function PaywallPlaceholder() {
-  return <PlaceholderScreen titleKey="paywall.headline" bodyKey="paywall.cta" />;
-}
