@@ -8,10 +8,10 @@ import {
   Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import * as StoreReview from 'expo-store-review';
+// import * as StoreReview from 'expo-store-review';
 
 // Placeholder Assets (use your actual assets in production)
-const AVATAR_1 = require('@/assets/splash-icon.png'); 
+const AVATAR_1 = require('../../../../assets/splash-icon.png'); 
 // In a real app, you'd have distinct avatar images
 
 interface Review {
@@ -55,9 +55,9 @@ export function ReviewScreenView({ onComplete }: ReviewScreenViewProps) {
   useEffect(() => {
     // Attempt to prompt for a rating after a delay, mimicking the reference behavior
     const timer = setTimeout(async () => {
-      if (await StoreReview.hasAction()) {
-        StoreReview.requestReview();
-      }
+      // if (await StoreReview.hasAction()) {
+      //   StoreReview.requestReview();
+      // }
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
@@ -81,8 +81,8 @@ export function ReviewScreenView({ onComplete }: ReviewScreenViewProps) {
           <Text style={styles.socialTitle}>This app was designed for people like you.</Text>
           <View style={styles.avatarsRow}>
              <View style={styles.avatarGroup}>
-                {[1,2,3].map((i) => (
-                  <Image key={i} source={AVATAR_1} style={[styles.miniAvatar, { marginLeft: i > 0 ? -10 : 0 }]} />
+                {[1,2,3].map((i, index) => (
+                  <Image key={i} source={AVATAR_1} style={[styles.miniAvatar, { marginLeft: index > 0 ? -10 : 0 }]} />
                 ))}
              </View>
              <Text style={styles.socialCount}>+ 10,000 people</Text>
