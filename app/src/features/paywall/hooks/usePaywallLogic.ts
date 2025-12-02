@@ -61,7 +61,7 @@ export function usePaywallLogic() {
   };
 }
 
-function determinePlacement(age?: number | null): PaywallPlacement {
+export function determinePlacement(age?: number | null): PaywallPlacement {
   if (typeof age !== 'number' || Number.isNaN(age)) {
     return 'age23to28';
   }
