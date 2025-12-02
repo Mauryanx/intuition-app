@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { Screen } from '@/components';
+import { CinematicIntro } from './CinematicIntro';
 import { WhyView } from './CalAI/WhyView';
 import { OnboardingQuiz } from './CalAI/OnboardingQuiz';
 import { AnalysisView } from './CalAI/AnalysisView';
@@ -15,32 +16,38 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Onboarding'>;
 
 export function OnboardingFlow({ navigation }: Props) {
   // New Flow State:
-  // 0: WhyView (Carousel)
-  // 1: OnboardingQuiz (General Questions)
-  // 2: GoalSelectView (Specific Goals)
-  // 3: AnalysisView (Calculation + Graph)
-  // 4: ReviewScreenView (Social Proof)
-  // 5: FinalCalculateView (Letter)
+  // 0: CinematicIntro (Visual Hook)
+  // 1: WhyView (Carousel)
+  // 2: OnboardingQuiz (General Questions)
+  // 3: GoalSelectView (Specific Goals)
+  // 4: AnalysisView (Calculation + Graph)
+  // 5: ReviewScreenView (Social Proof)
+  // 6: FinalCalculateView (Letter)
   const [flowStep, setFlowStep] = useState(0);
 
-  const handleWhyComplete = useCallback(() => {
+  const handleCinematicComplete = useCallback(() => {
+    console.log('OnboardingFlow handleCinematicComplete called, setting flowStep to 1');
     setFlowStep(1);
   }, []);
 
-  const handleQuizComplete = useCallback(() => {
+  const handleWhyComplete = useCallback(() => {
     setFlowStep(2);
   }, []);
 
-  const handleGoalsComplete = useCallback(() => {
+  const handleQuizComplete = useCallback(() => {
     setFlowStep(3);
   }, []);
 
-  const handleAnalysisComplete = useCallback(() => {
+  const handleGoalsComplete = useCallback(() => {
     setFlowStep(4);
   }, []);
 
-  const handleReviewsComplete = useCallback(() => {
+  const handleAnalysisComplete = useCallback(() => {
     setFlowStep(5);
+  }, []);
+
+  const handleReviewsComplete = useCallback(() => {
+    setFlowStep(6);
   }, []);
 
   const handleFinalComplete = useCallback(() => {
@@ -52,26 +59,30 @@ export function OnboardingFlow({ navigation }: Props) {
   return (
     <View style={styles.container}>
       {flowStep === 0 && (
+        <CinematicIntro onComplete={handleCinematicComplete} />
+      )}
+
+      {flowStep === 1 && (
         <WhyView onComplete={handleWhyComplete} />
       )}
       
-      {flowStep === 1 && (
+      {flowStep === 2 && (
         <OnboardingQuiz onComplete={handleQuizComplete} />
       )}
 
-      {flowStep === 2 && (
+      {flowStep === 3 && (
         <GoalSelectView onComplete={handleGoalsComplete} />
       )}
 
-      {flowStep === 3 && (
+      {flowStep === 4 && (
         <AnalysisView onComplete={handleAnalysisComplete} />
       )}
 
-      {flowStep === 4 && (
+      {flowStep === 5 && (
         <ReviewScreenView onComplete={handleReviewsComplete} />
       )}
 
-      {flowStep === 5 && (
+      {flowStep === 6 && (
         <FinalCalculateView onComplete={handleFinalComplete} />
       )}
     </View>

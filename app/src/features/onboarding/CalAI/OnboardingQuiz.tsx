@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MotiView, AnimatePresence } from 'moti';
-import Slider from '@react-native-community/slider'; // You might need to install this, or use a basic View implementation if not available.
+import { useProfileStore } from '@/state/profile';
 // For now, I'll build a custom simple slider using View to avoid deps if possible, or assume basic slider usage.
 
 const { width } = Dimensions.get('window');
@@ -102,6 +102,7 @@ export function OnboardingQuiz({ onComplete }: OnboardingQuizProps) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, any>>({});
   const [isCalculating, setIsCalculating] = useState(false);
+  const setUserInfo = useProfileStore((state) => state.setUserInfo);
 
   const currentQ = QUESTIONS[step];
   const progress = (step) / (QUESTIONS.length - 1);
@@ -126,6 +127,7 @@ export function OnboardingQuiz({ onComplete }: OnboardingQuizProps) {
       // Fake calculation delay
       setTimeout(() => {
         setIsCalculating(false);
+        persistUserInfo();
         onComplete();
       }, 3000); // 3 seconds of "Calculating..."
     }
@@ -212,6 +214,26 @@ export function OnboardingQuiz({ onComplete }: OnboardingQuizProps) {
       {isCalculating && <CalculatingOverlay />}
     </View>
   );
+
+  function persistUserInfo() {
+    const rawName = answers[5];
+    const rawAge = answers[6];
+
+    const name =
+      typeof rawName === 'string' ? rawName.trim() || null : null;
+
+    const parsedAge =
+      typeof rawAge === 'string'
+        ? parseInt(rawAge, 10)
+        : typeof rawAge === 'number'
+          ? rawAge
+          : null;
+
+    setUserInfo({
+      name,
+      age: Number.isFinite(parsedAge) ? parsedAge : null,
+    });
+  }
 }
 
 // --- Sub Components ---
@@ -244,10 +266,10 @@ function SingleChoiceInput({ options, selected, onSelect }: { options: string[],
   );
 }
 
-function CustomSlider({ config, value, onChange }: { config: any, value: number, onChange: (v: number) => void }) {
+function CustomSlider({ config, value, onChange }: { config: any, value: number | undefined, onChange: (v: number) => void }) {
   // Simple custom slider visual since we might not have @react-native-community/slider installed
   // We'll use 3 tap targets for min/mid/max for MVP simplicity if range is small
-  const val = value ?? config.min;
+  const val = value;
   
   return (
     <View style={{ gap: 20, marginTop: 20 }}>
