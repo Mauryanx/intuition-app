@@ -19,6 +19,7 @@ import {
   AnomalyScoutScreen,
 } from '@/features/games/screens';
 import { PaywallScreen } from '@/features/paywall/PaywallScreen';
+import { AuthScreenWrapper } from '@/features/auth/AuthScreenWrapper';
 import { useTheme } from '@/theme';
 import { trackEvent } from '@/services/analytics';
 
@@ -85,7 +86,7 @@ export function RootNavigator() {
       >
         <Stack.Screen
           name="Auth"
-          component={AuthPlaceholder}
+          component={AuthScreenWrapper}
           options={{ animationTypeForReplace: 'push' }}
         />
         <Stack.Screen name="Onboarding" component={OnboardingFlow} />
@@ -94,10 +95,6 @@ export function RootNavigator() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
-
-function AuthPlaceholder() {
-  return <PlaceholderScreen titleKey="auth.welcome" />;
 }
 
 function MainNavigator() {

@@ -28,7 +28,7 @@ export function usePaywallLogic() {
 
   const handleSuccess = useCallback(() => {
     trackEvent({ name: 'paywall_purchase_successful', params: { source: 'primary' } });
-    navigation.replace('Main');
+    navigation.replace('Auth');
   }, [navigation]);
 
   const registerPlacement = useCallback(

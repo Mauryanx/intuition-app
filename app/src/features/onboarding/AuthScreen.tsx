@@ -7,148 +7,182 @@ import {
   Dimensions,
   SafeAreaView,
   TouchableOpacity,
-  Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { MotiView } from 'moti';
+import { Ionicons } from '@expo/vector-icons';
 import { Easing } from 'react-native-reanimated';
-import { useTheme } from '@/theme';
 
 const { width, height } = Dimensions.get('window');
+
+export function formatAuthTitle(name?: string): string {
+  if (name && name.trim().length > 0) {
+    return `Welcome back, ${name.trim()}`;
+  }
+  return 'Welcome Back';
+}
 
 type AuthScreenProps = {
   onAppleSignIn: () => void;
   onGoogleSignIn: () => void;
-  onSkip?: () => void; // Optional skip function
+  onSkip?: () => void;
 };
 
 export function AuthScreen({ onAppleSignIn, onGoogleSignIn, onSkip }: AuthScreenProps) {
-  const theme = useTheme();
-  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <LinearGradient
-        colors={['#1A202C', '#2D3748']}
+        colors={['#0F172A', '#1E293B', '#334155']}
         style={styles.gradient}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
-        <View style={styles.content}>
+        {/* Decorative background elements */}
+        <View style={styles.decorativeContainer}>
           <MotiView
-            from={{ opacity: 0, translateY: -20 }}
+            from={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.15, scale: 1 }}
+            transition={{ type: 'timing', duration: 2000, loop: true, repeatReverse: true }}
+            style={[styles.decorativeCircle, { top: 50, right: -50 }]}
+          />
+          <MotiView
+            from={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.1, scale: 1 }}
+            transition={{ type: 'timing', duration: 2500, delay: 500, loop: true, repeatReverse: true }}
+            style={[styles.decorativeCircle, { bottom: 100, left: -30 }]}
+          />
+        </View>
+
+        <View style={styles.content}>
+          {/* Logo/Icon Section */}
+          <MotiView
+            from={{ opacity: 0, scale: 0.5, rotate: '-10deg' }}
+            animate={{ opacity: 1, scale: 1, rotate: '0deg' }}
+            transition={{
+              type: 'spring',
+              damping: 15,
+              stiffness: 150,
+            }}
+            style={styles.logoContainer}
+          >
+            <View style={styles.logoCircle}>
+              <Ionicons name="flash" size={40} color="#EF4444" />
+            </View>
+          </MotiView>
+
+          {/* Header */}
+          <MotiView
+            from={{ opacity: 0, translateY: -30 }}
             animate={{ opacity: 1, translateY: 0 }}
             transition={{
               type: 'timing',
               duration: 800,
-              easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+              easing: Easing.out(Easing.cubic),
             }}
             style={styles.headerContainer}
           >
-            <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-              Login
-            </Text>
-            <Text style={[styles.subtitle, { color: theme.colors.text.secondary }]}>
-              Sign in to save your progress and access your personalized training plan
+            <Text style={styles.title}>Welcome Back</Text>
+            <Text style={styles.subtitle}>
+              Sign in to sync your progress across devices and unlock your full training potential
             </Text>
           </MotiView>
-          
+
+          {/* Sign In Buttons */}
           <View style={styles.buttonContainer}>
             <MotiView
-              from={{ opacity: 0, translateY: 20 }}
-              animate={{ opacity: 1, translateY: 0 }}
+              from={{ opacity: 0, translateY: 30, scale: 0.9 }}
+              animate={{ opacity: 1, translateY: 0, scale: 1 }}
               transition={{
-                type: 'timing',
-                duration: 600,
-                delay: 300,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+                type: 'spring',
+                damping: 20,
+                stiffness: 200,
+                delay: 200,
               }}
               style={styles.buttonWrapper}
             >
-              <BlurView intensity={15} tint="dark" style={styles.blurContainer}>
-                <TouchableOpacity 
-                  style={styles.signInButton}
-                  onPress={onAppleSignIn}
-                  activeOpacity={0.8}
-                >
-                  <View style={styles.iconContainer}>
-                    {/* Apple logo placeholder */}
-                    <View style={[styles.icon, { backgroundColor: 'white' }]}>
-                      {/* Replace with actual Apple logo */}
-                    </View>
+              <TouchableOpacity
+                style={styles.appleButton}
+                onPress={onAppleSignIn}
+                activeOpacity={0.85}
+              >
+                <BlurView intensity={20} tint="dark" style={styles.buttonBlur}>
+                  <View style={styles.buttonContent}>
+                    <Ionicons name="logo-apple" size={22} color="#FFFFFF" />
+                    <Text style={styles.buttonText}>Continue with Apple</Text>
                   </View>
-                  <Text style={styles.buttonText}>Sign in with Apple</Text>
-                </TouchableOpacity>
-              </BlurView>
+                </BlurView>
+              </TouchableOpacity>
             </MotiView>
-            
+
             <MotiView
-              from={{ opacity: 0, translateY: 20 }}
-              animate={{ opacity: 1, translateY: 0 }}
+              from={{ opacity: 0, translateY: 30, scale: 0.9 }}
+              animate={{ opacity: 1, translateY: 0, scale: 1 }}
               transition={{
-                type: 'timing',
-                duration: 600,
-                delay: 450,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+                type: 'spring',
+                damping: 20,
+                stiffness: 200,
+                delay: 350,
               }}
               style={styles.buttonWrapper}
             >
-              <BlurView intensity={15} tint="dark" style={styles.blurContainer}>
-                <TouchableOpacity 
-                  style={styles.signInButton}
-                  onPress={onGoogleSignIn}
-                  activeOpacity={0.8}
-                >
-                  <View style={styles.iconContainer}>
-                    {/* Google logo placeholder */}
-                    <View style={[styles.icon, { backgroundColor: 'white' }]}>
-                      {/* Replace with actual Google logo */}
-                    </View>
+              <TouchableOpacity
+                style={styles.googleButton}
+                onPress={onGoogleSignIn}
+                activeOpacity={0.85}
+              >
+                <BlurView intensity={20} tint="light" style={styles.buttonBlur}>
+                  <View style={styles.buttonContent}>
+                    <Ionicons name="logo-google" size={22} color="#4285F4" />
+                    <Text style={[styles.buttonText, styles.googleButtonText]}>
+                      Continue with Google
+                    </Text>
                   </View>
-                  <Text style={styles.buttonText}>Sign in with Google</Text>
-                </TouchableOpacity>
-              </BlurView>
+                </BlurView>
+              </TouchableOpacity>
             </MotiView>
           </View>
-          
+
+          {/* Divider */}
           {onSkip && (
             <MotiView
               from={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{
-                type: 'timing',
-                duration: 600,
-                delay: 600,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-              }}
+              transition={{ type: 'timing', duration: 600, delay: 500 }}
+              style={styles.dividerContainer}
+            >
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>or</Text>
+              <View style={styles.dividerLine} />
+            </MotiView>
+          )}
+
+          {/* Skip Button */}
+          {onSkip && (
+            <MotiView
+              from={{ opacity: 0, translateY: 10 }}
+              animate={{ opacity: 1, translateY: 0 }}
+              transition={{ type: 'timing', duration: 600, delay: 600 }}
               style={styles.skipContainer}
             >
-              <TouchableOpacity 
-                onPress={onSkip}
-                activeOpacity={0.7}
-                style={styles.skipButton}
-              >
-                <Text style={[styles.skipText, { color: theme.colors.text.secondary }]}>
-                  Continue without signing in
-                </Text>
+              <TouchableOpacity onPress={onSkip} activeOpacity={0.7} style={styles.skipButton}>
+                <Text style={styles.skipText}>Continue as Guest</Text>
               </TouchableOpacity>
             </MotiView>
           )}
-          
+
+          {/* Privacy Footer */}
           <MotiView
             from={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{
-              type: 'timing',
-              duration: 600,
-              delay: 750,
-              easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-            }}
+            transition={{ type: 'timing', duration: 600, delay: 750 }}
             style={styles.privacyContainer}
           >
-            <Text style={[styles.privacyText, { color: theme.colors.text.secondary }]}>
-              By signing in, you agree to our Terms of Service and Privacy Policy
+            <Text style={styles.privacyText}>
+              By continuing, you agree to our{' '}
+              <Text style={styles.privacyLink}>Terms of Service</Text> and{' '}
+              <Text style={styles.privacyLink}>Privacy Policy</Text>
             </Text>
           </MotiView>
         </View>
@@ -166,83 +200,156 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  decorativeContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  decorativeCircle: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: '#EF4444',
+  },
   content: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 24,
+    paddingHorizontal: 32,
+    paddingTop: 60,
+    paddingBottom: 40,
+  },
+  logoContainer: {
+    marginBottom: 32,
+  },
+  logoCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(239, 68, 68, 0.15)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(239, 68, 68, 0.3)',
   },
   headerContainer: {
     alignItems: 'center',
-    marginBottom: 60,
+    marginBottom: 48,
+    maxWidth: width * 0.85,
   },
   title: {
-    fontSize: 32,
-    fontWeight: '700',
-    marginBottom: 16,
+    fontSize: 36,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    marginBottom: 12,
     textAlign: 'center',
+    letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 16,
     lineHeight: 24,
     textAlign: 'center',
-    opacity: 0.8,
-    maxWidth: '80%',
+    color: 'rgba(255, 255, 255, 0.75)',
+    fontWeight: '400',
   },
   buttonContainer: {
     width: '100%',
-    marginBottom: 40,
+    marginBottom: 24,
+    gap: 16,
   },
   buttonWrapper: {
-    marginBottom: 16,
     width: '100%',
   },
-  blurContainer: {
+  appleButton: {
+    borderRadius: 16,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  googleButton: {
+    borderRadius: 16,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  buttonBlur: {
     borderRadius: 16,
     overflow: 'hidden',
   },
-  signInButton: {
+  buttonContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    borderRadius: 16,
-  },
-  iconContainer: {
-    marginRight: 12,
-  },
-  icon: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    justifyContent: 'center',
+    paddingVertical: 18,
+    paddingHorizontal: 24,
+    gap: 12,
   },
   buttonText: {
-    color: 'white',
-    fontSize: 16,
+    color: '#FFFFFF',
+    fontSize: 17,
     fontWeight: '600',
+    letterSpacing: 0.3,
+  },
+  googleButtonText: {
+    color: '#1F2937',
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    marginVertical: 24,
+    gap: 12,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+  },
+  dividerText: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    fontSize: 14,
+    fontWeight: '500',
   },
   skipContainer: {
-    marginBottom: 20,
+    width: '100%',
+    marginBottom: 32,
   },
   skipButton: {
-    padding: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    alignItems: 'center',
   },
   skipText: {
-    fontSize: 14,
-    textDecorationLine: 'underline',
-    opacity: 0.7,
+    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontWeight: '500',
+    letterSpacing: 0.2,
   },
   privacyContainer: {
     position: 'absolute',
-    bottom: 40,
-    left: 0,
-    right: 0,
+    bottom: 32,
+    left: 32,
+    right: 32,
     alignItems: 'center',
   },
   privacyText: {
     fontSize: 12,
     textAlign: 'center',
-    opacity: 0.6,
-    paddingHorizontal: 40,
+    color: 'rgba(255, 255, 255, 0.5)',
+    lineHeight: 18,
+  },
+  privacyLink: {
+    color: 'rgba(255, 255, 255, 0.8)',
+    textDecorationLine: 'underline',
+    fontWeight: '500',
   },
 });
